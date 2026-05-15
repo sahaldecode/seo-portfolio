@@ -15,7 +15,8 @@ const nextConfig = {
   trailingSlash: true,
 
   async headers() {
-    return [
+  if (process.env.NODE_ENV === 'development') return [];
+  return [
       {
         source: "/:path*",
         headers: [

@@ -81,7 +81,7 @@ export function Services() {
           </ScrollReveal>
         </div>
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-5" staggerDelay={0.12}>
+        <StaggerContainer className="grid md:grid-cols-2 xl:grid-cols-3 gap-5" staggerDelay={0.12}>
           {plans.map((plan) => (
             <StaggerItem key={plan.id}>
               <motion.div

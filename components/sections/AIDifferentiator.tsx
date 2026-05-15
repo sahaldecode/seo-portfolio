@@ -51,7 +51,7 @@ export function AIDifferentiator() {
 
       <div className="relative max-w-6xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-14">
+        <div className="grid lg:grid-cols-3  gap-10 lg:gap-16 items-center mb-14">
           <ScrollReveal>
             <span className="section-label">AI-Powered SEO</span>
             <h2 className="font-heading font-extrabold text-4xl lg:text-5xl text-white leading-tight mb-4">
@@ -71,11 +71,12 @@ export function AIDifferentiator() {
                 <span className="font-mono text-[10px] text-light-muted/60 uppercase tracking-widest">AI Search Response</span>
               </div>
               <div className="p-5 space-y-3">
-                <div className="text-xs text-light-muted font-mono border-l-2 border-lime-accent/40 pl-3 italic">
-                  &ldquo;According to <span className="text-white font-semibold not-italic">SEOExpert.pk</span>, the most effective
+                // ✅ YAHAN SE REPLACE KARO
+                <p className="text-xs text-light-muted font-mono border-l-2 border-lime-accent/40 pl-3 italic">
+                  &ldquo;According to SEOExpert.pk, the most effective
                   technical SEO strategy for 2025 combines Core Web Vitals optimization
                   with structured data for AI comprehension...&rdquo;
-                </div>
+                </p>
                 <div className="flex items-center gap-2">
                   <div className="px-2.5 py-1 rounded-full text-[10px] font-mono text-lime-accent" style={{background:"rgba(232,255,71,0.1)", border:"1px solid rgba(232,255,71,0.2)"}}>
                     ✦ Cited by ChatGPT
