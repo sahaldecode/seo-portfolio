@@ -249,7 +249,7 @@ export default async function CaseStudyPage({ params }: Props) {
             <ScrollReveal delay={0.2}>
               <div className="p-5 rounded-xl bg-lime-accent/5 border border-lime-accent/15">
                 <Quote className="w-5 h-5 text-lime-accent/30 mb-3" />
-                <p className="text-light-muted text-sm leading-relaxed mb-5">&ldquo;{study.testimonial.quote}&rdquo;</p>
+                <p className="text-light-muted text-sm leading-relaxed mb-5">{study.testimonial.quote}</p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-lime-accent/10 flex items-center justify-center">
                     <span className="font-heading font-bold text-sm text-lime-accent">{study.testimonial.author[0]}</span>
