@@ -113,7 +113,7 @@ export default function CaseStudiesPage() {
         <ScrollReveal delay={0.2}>
           <div className="mt-16 text-center p-10 rounded-2xl bg-dark-secondary border border-white/[6%]">
             <h2 className="font-heading font-bold text-2xl text-white mb-3">Want to be the next success story?</h2>
-            <p className="text-light-muted mb-6 max-w-md mx-auto text-sm">Book a free 30-minute strategy call and let&apos;s map out your growth plan.</p>
+            <p className="text-light-muted mb-6 max-w-md mx-auto text-sm">Book a free 30-minute strategy call and lets map out your growth plan.</p>
             <Link href="/contact/"
               className="group inline-flex items-center gap-2 px-8 py-3.5 bg-lime-accent text-dark font-bold rounded-full hover:bg-white transition-all text-sm"
               style={{boxShadow:"0 0 30px rgba(232,255,71,0.18)"}}>

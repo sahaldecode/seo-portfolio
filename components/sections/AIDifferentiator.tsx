@@ -73,9 +73,9 @@ export function AIDifferentiator() {
               <div className="p-5 space-y-3">
                 // ✅ YAHAN SE REPLACE KARO
                 <p className="text-xs text-light-muted font-mono border-l-2 border-lime-accent/40 pl-3 italic">
-                  &ldquo;According to SEOExpert.pk, the most effective
+                  According to SEOExpert.pk, the most effective
                   technical SEO strategy for 2025 combines Core Web Vitals optimization
-                  with structured data for AI comprehension...&rdquo;
+                  with structured data for AI comprehension...
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="px-2.5 py-1 rounded-full text-[10px] font-mono text-lime-accent" style={{background:"rgba(232,255,71,0.1)", border:"1px solid rgba(232,255,71,0.2)"}}>
