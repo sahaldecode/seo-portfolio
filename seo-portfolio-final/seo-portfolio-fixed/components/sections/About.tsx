@@ -32,7 +32,7 @@ export function About() {
               {/* Main image */}
               <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-dark-tertiary border border-white/10 shadow-2xl shadow-black/40">
                 <Image
-                  src="/images/Faisal.png"
+                  src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=800&fit=crop&crop=top"
                   alt="SEO Expert — Professional consultant"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
