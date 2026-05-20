@@ -5,7 +5,6 @@ import Image from "next/image";
 import { ArrowLeft, ArrowUpRight, CheckCircle2, MapPin, Clock, Wrench, Brain, TrendingUp, Trophy, Key } from "lucide-react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { caseStudies } from "@/content/case-studies/data";
-import { AuditForm } from "@/components/sections/AuditForm";
 
 // ─── Types ────────────────────────────────────────────────────────
 type CaseStudy = (typeof caseStudies)[number] & {
@@ -115,7 +114,23 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             <div className="rounded-2xl border border-white/10 bg-dark-secondary p-6 flex flex-col" id="audit">
               <h3 className="font-heading font-bold text-white text-lg mb-1">Get a Similar Growth Plan</h3>
               <p className="text-xs text-light-muted mb-5">Request a free audit and see what is holding your website back.</p>
-              <AuditForm />
+              <form className="flex flex-col gap-3 flex-1" onSubmit={(e) => e.preventDefault()}>
+                <input type="email" placeholder="Email address" required
+                  className="w-full px-4 py-3 rounded-xl bg-dark border border-white/8 text-white text-sm placeholder-light-muted/40 focus:border-lime-accent/40 focus:outline-none transition-all" />
+                <input type="tel" placeholder="Phone / WhatsApp"
+                  className="w-full px-4 py-3 rounded-xl bg-dark border border-white/8 text-white text-sm placeholder-light-muted/40 focus:border-lime-accent/40 focus:outline-none transition-all" />
+                <input type="text" placeholder="Your name" required
+                  className="w-full px-4 py-3 rounded-xl bg-dark border border-white/8 text-white text-sm placeholder-light-muted/40 focus:border-lime-accent/40 focus:outline-none transition-all" />
+                <input type="url" placeholder="Website URL"
+                  className="w-full px-4 py-3 rounded-xl bg-dark border border-white/8 text-white text-sm placeholder-light-muted/40 focus:border-lime-accent/40 focus:outline-none transition-all" />
+                <textarea rows={3} placeholder="Tell me about your business..."
+                  className="w-full px-4 py-3 rounded-xl bg-dark border border-white/8 text-white text-sm placeholder-light-muted/40 focus:border-lime-accent/40 focus:outline-none transition-all resize-none" />
+                <button type="submit"
+                  className="w-full py-3.5 rounded-xl bg-lime-accent text-dark font-bold text-sm hover:bg-white transition-all mt-auto"
+                  style={{boxShadow:"0 0 24px rgba(232,255,71,0.2)"}}>
+                  Submit Audit Request
+                </button>
+              </form>
             </div>
           </div>
 
