@@ -1,166 +1,182 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about/" },
-  { label: "Services", href: "/services/" },
-  { label: "Case Studies", href: "/case-studies/" },
-  { label: "Contact", href: "/contact/" },
+interface NavbarProps { currentPage: string; onNavigate: (page: string) => void; }
+
+const SPA_LINKS = [
+  { label: "Home",       page: "home"       },
+  { label: "Services",   page: "services"   },
+  { label: "Industries", page: "industries" },
+  { label: "Case Studies", page: "case-studies" },
+  { label: "Locations",  page: "location"   },
+  { label: "Pricing",    page: "pricing"    },
+  { label: "FAQ",        page: "faq"        },
+  { label: "About",      page: "about"      },
 ];
 
-export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
+export function Navbar({ currentPage, onNavigate }: NavbarProps) {
+  const [open, setOpen] = useState(false);
 
+  /* scroll effect — pure DOM, no React state → no hydration mismatch */
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const el = document.getElementById("site-nav") as HTMLElement | null;
+    if (!el) return;
+    const fn = () => {
+      el.style.background =
+        window.scrollY > 50 ? "rgba(8,8,16,.97)" : "rgba(8,8,16,.82)";
+    };
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // Close mobile menu on route change
+  /* body scroll lock */
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  const go = (page: string) => { setOpen(false); onNavigate(page); };
+
+  const linkCss = (active: boolean): React.CSSProperties => ({
+    display: "block",
+    padding: "7px 11px",
+    borderRadius: 7,
+    fontSize: 11.5,
+    fontWeight: 500,
+    textTransform: "uppercase",
+    letterSpacing: ".06em",
+    cursor: "pointer",
+    border: "none",
+    fontFamily: "inherit",
+    transition: ".18s",
+    background: active ? "rgba(201,168,76,.08)" : "transparent",
+    color:      active ? "var(--gold)" : "var(--muted)",
+    textDecoration: "none",
+  });
 
   return (
     <>
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          isScrolled
-            ? "backdrop-blur-xl border-b border-white/5"
-            : "bg-transparent"
-        )}
-        style={isScrolled ? { background: "rgba(8,8,8,0.88)" } : {}}
-      >
-        <nav className="max-w-7xl mx-auto px-6 lg:px-8" aria-label="Main navigation">
-          <div className="flex items-center justify-between h-[72px]">
-            {/* Logo */}
-            <Link href="/" className="relative z-10 group">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-lime-accent flex items-center justify-center shadow-sm" style={{boxShadow:"0 0 12px rgba(232,255,71,0.3)"}}>
-                  <span className="font-heading font-black text-dark text-sm">S</span>
-                </div>
-                <span className="font-heading font-bold text-base text-white hidden sm:block tracking-tight">
-                  SEO<span className="text-lime-accent">.</span>Expert
-                </span>
+      {/* ── MOBILE MENU OVERLAY ────────────────── */}
+      {open && (
+        <div style={{
+          position:"fixed", inset:0, zIndex:1000,
+          background:"rgba(8,8,16,.98)",
+          backdropFilter:"blur(24px)", WebkitBackdropFilter:"blur(24px)",
+          display:"flex", flexDirection:"column", overflowY:"auto",
+        }}>
+          {/* top row */}
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"18px 20px", borderBottom:"1px solid var(--line)" }}>
+            <button onClick={() => go("home")}
+              style={{ background:"none", border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
+              <div style={{ fontFamily:"var(--font-cormorant,serif)", fontSize:20, fontWeight:700, color:"#fff", lineHeight:1.2 }}>
+                Faisal <span style={{ color:"var(--gold)" }}>Rehman</span>
               </div>
-            </Link>
-
-            {/* Desktop links */}
-            <div className="hidden lg:flex items-center gap-0.5">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href.replace(/\/$/, "")));
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "relative px-4 py-2 text-sm font-medium transition-colors rounded-lg",
-                      isActive
-                        ? "text-lime-accent"
-                        : "text-light-muted hover:text-white"
-                    )}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-active"
-                        className="absolute bottom-0 left-4 right-4 h-px bg-lime-accent"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* CTA */}
-            <div className="hidden lg:flex items-center gap-3">
-              <Link
-                href="/contact/"
-                className="group inline-flex items-center gap-1.5 px-5 py-2.5 bg-lime-accent text-dark font-bold text-[13px] rounded-full hover:bg-white transition-all duration-300"
-                style={{boxShadow:"0 0 20px rgba(232,255,71,0.15)"}}
-              >
-                Free Audit
-                <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
-            </div>
-
-            {/* Mobile toggle */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden relative z-10 p-2 text-white rounded-lg hover:bg-white/5 transition-colors"
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <div style={{ fontSize:9, color:"var(--gold)", letterSpacing:".18em", textTransform:"uppercase", fontWeight:600 }}>
+                Local SEO Expert · 05+ Years
+              </div>
+            </button>
+            <button onClick={() => setOpen(false)} aria-label="Close menu"
+              style={{ width:40, height:40, borderRadius:10, background:"rgba(255,255,255,.07)", border:"1px solid var(--line)", color:"#fff", cursor:"pointer", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+              ✕
             </button>
           </div>
-        </nav>
-      </header>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden"
-            style={{ background: "rgba(8,8,8,0.97)", backdropFilter: "blur(20px)" }}
-          >
-            <nav className="flex flex-col items-center justify-center h-full gap-2 px-6">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.07, duration: 0.3 }}
-                  className="w-full text-center"
-                >
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "block py-4 text-2xl font-heading font-bold transition-colors",
-                      pathname === link.href ? "text-lime-accent" : "text-white hover:text-lime-accent"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
+          {/* nav links */}
+          <div style={{ flex:1, padding:"10px 18px 0" }}>
+            {SPA_LINKS.map(l => (
+              <button key={l.page} onClick={() => go(l.page)}
+                style={{ width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 16px", borderRadius:12, marginBottom:4, background: currentPage===l.page ? "rgba(201,168,76,.1)" : "transparent", border:`1px solid ${currentPage===l.page ? "rgba(201,168,76,.25)" : "transparent"}`, color: currentPage===l.page ? "var(--gold)" : "var(--text)", fontFamily:"var(--font-cormorant,serif)", fontSize:21, fontWeight:700, cursor:"pointer", textAlign:"left", transition:".18s" }}>
+                {l.label} <span style={{ color:"var(--muted)", fontSize:13 }}>→</span>
+              </button>
+            ))}
+            {/* <Link href="/case-studies/" onClick={() => setOpen(false)}
+              style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 16px", borderRadius:12, marginBottom:4, background: currentPage==="case-studies" ? "rgba(201,168,76,.1)" : "transparent", border:`1px solid ${currentPage==="case-studies" ? "rgba(201,168,76,.25)" : "transparent"}`, color: currentPage==="case-studies" ? "var(--gold)" : "var(--text)", fontFamily:"var(--font-cormorant,serif)", fontSize:21, fontWeight:700, textDecoration:"none" }}>
+              Case Studies <span style={{ color:"var(--muted)", fontSize:13 }}>→</span>
+            </Link> */}
+            <button onClick={() => go("contact")}
+              style={{ width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 16px", borderRadius:12, marginBottom:4, background: currentPage==="contact" ? "rgba(201,168,76,.1)" : "transparent", border:`1px solid ${currentPage==="contact" ? "rgba(201,168,76,.25)" : "transparent"}`, color: currentPage==="contact" ? "var(--gold)" : "var(--text)", fontFamily:"var(--font-cormorant,serif)", fontSize:21, fontWeight:700, cursor:"pointer", textAlign:"left" }}>
+              Contact <span style={{ color:"var(--muted)", fontSize:13 }}>→</span>
+            </button>
+          </div>
+
+          {/* bottom CTA */}
+          <div style={{ padding:"18px 18px 34px", borderTop:"1px solid var(--line)", marginTop:10 }}>
+            <button onClick={() => go("contact")} className="btn-gold"
+              style={{ width:"100%", justifyContent:"center", fontSize:15 }}>
+              Book Free SEO Audit →
+            </button>
+            <div style={{ display:"flex", gap:10, marginTop:14, justifyContent:"center" }}>
+              {[
+                { href:"https://www.linkedin.com/in/faisallseo/", label:"in" },
+                { href:"https://www.upwork.com/freelancers/~01caf2a54582f779b8", label:"Up" },
+                { href:"mailto:contact@faisalseo.com", label:"@" },
+                { href:"https://wa.link/rxsrsw", label:"W" },
+              ].map(s => (
+                <a key={s.label} href={s.href}
+                  target={s.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer" className="social-link">{s.label}</a>
               ))}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.3 }}
-                className="mt-4"
-              >
-                <Link
-                  href="/contact/"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-lime-accent text-dark font-bold rounded-full text-base"
-                  style={{boxShadow:"0 0 30px rgba(232,255,71,0.25)"}}
-                >
-                  Get Free Audit
-                  <ArrowUpRight className="w-5 h-5" />
-                </Link>
-              </motion.div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── DESKTOP / STICKY NAV ───────────────── */}
+      <nav id="site-nav" style={{
+        position:"sticky", top:0, zIndex:999,
+        padding:"0 32px", height:68,
+        display:"flex", alignItems:"center", justifyContent:"space-between",
+        background:"rgba(8,8,16,.82)",
+        backdropFilter:"blur(22px)", WebkitBackdropFilter:"blur(22px)",
+        borderBottom:"1px solid var(--line)",
+        transition:"background .28s",
+      }}>
+
+        {/* logo */}
+        <button onClick={() => go("home")}
+          style={{ background:"none", border:"none", cursor:"pointer", padding:0, flexShrink:0, textAlign:"left" }}>
+          <div style={{ fontFamily:"var(--font-cormorant,serif)", fontSize:20, fontWeight:700, color:"#fff", lineHeight:1.2 }}>
+            Faisal <span style={{ color:"var(--gold)" }}>Rehman</span>
+          </div>
+          <div style={{ fontFamily:"var(--font-inter,sans-serif)", fontSize:9, color:"var(--gold)", letterSpacing:".2em", textTransform:"uppercase", fontWeight:600 }}>
+            Local SEO Expert · 05+ Years
+          </div>
+        </button>
+
+        {/* desktop links */}
+        <ul className="nav-desktop-links"
+          style={{ display:"flex", gap:1, listStyle:"none", alignItems:"center" }}>
+          {SPA_LINKS.map(l => (
+            <li key={l.page}>
+              <button onClick={() => go(l.page)} style={linkCss(currentPage === l.page)}>
+                {l.label}
+              </button>
+            </li>
+          ))}
+          {/* <li>
+            <Link href="/case-studies/" style={linkCss(currentPage === "case-studies")}>
+              Cases
+            </Link>
+          </li> */}
+        </ul>
+
+        {/* right side */}
+        <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+          <button onClick={() => go("contact")} className="nav-cta-btn"
+            style={{ background:"var(--gold)", color:"#000", padding:"9px 20px", borderRadius:6, fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:".05em", cursor:"pointer", border:"none", transition:".22s", flexShrink:0 }}>
+            Hire Me →
+          </button>
+          <button onClick={() => setOpen(true)} className="mobile-hamburger" aria-label="Menu"
+            style={{ display:"none", alignItems:"center", justifyContent:"center", background:"rgba(255,255,255,.06)", border:"1px solid var(--line2)", color:"#fff", width:42, height:42, borderRadius:10, cursor:"pointer", flexShrink:0 }}>
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+              <rect y="0"  width="18" height="2" rx="1" fill="currentColor"/>
+              <rect y="6"  width="13" height="2" rx="1" fill="currentColor"/>
+              <rect y="12" width="18" height="2" rx="1" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
     </>
   );
 }
-
-export default Navbar;

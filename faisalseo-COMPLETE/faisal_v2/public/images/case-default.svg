@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0E1A;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#080810;stop-opacity:1"/>
+    </linearGradient>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#C9A84C" stroke-width="0.4" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#g)"/>
+  <rect width="800" height="450" fill="url(#grid)"/>
+  <circle cx="400" cy="225" r="180" fill="#C9A84C" opacity="0.04"/>
+  <circle cx="400" cy="225" r="100" fill="#C9A84C" opacity="0.05"/>
+  <text x="400" y="200" text-anchor="middle" font-size="64" opacity="0.5">📊</text>
+  <text x="400" y="268" text-anchor="middle" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#C9A84C" opacity="0.8">SEO</text>
+  <text x="400" y="298" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#ffffff" opacity="0.3">Case Study</text>
+  <!-- accent line -->
+  <line x1="340" y1="315" x2="460" y2="315" stroke="#C9A84C" stroke-width="1.5" opacity="0.35"/>
+</svg>

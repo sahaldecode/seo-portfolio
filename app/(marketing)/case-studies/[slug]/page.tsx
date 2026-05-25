@@ -2,409 +2,1510 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, MapPin, Clock, Wrench, Brain, TrendingUp, Trophy, Key } from "lucide-react";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { caseStudies } from "@/content/case-studies/data";
-import { AuditForm } from "@/components/sections/AuditForm";
 
-// ─── Types ────────────────────────────────────────────────────────
-type CaseStudy = (typeof caseStudies)[number] & {
-  timeline?: string;
-  beforeAfter?: {
-    before: { clicks: string; impressions: string; ctr: string; position: string };
-    after:  { clicks: string; impressions: string; ctr: string; position: string };
-  };
+/* ──────────────────────────────────────────────────────────────
+   IMAGE RESOLUTION
+   Priority order:
+   1. /public/images/case-{slug}.jpg   ← your real screenshot
+   2. /public/images/case-{slug}.png
+   3. /public/images/case-{industry}.svg (auto placeholder)
+   4. /public/images/seo-hero.jpg      (final fallback)
+─────────────────────────────────────────────────────────────── */
+const INDUSTRY_SVG: Record<string, string> = {
+  Cleaning: "/images/case-cleaning.svg",
+  HVAC: "/images/case-hvac.svg",
+  Healthcare: "/images/case-healthcare.svg",
+  Roofing: "/images/case-roofing.svg",
+  Dental: "/images/case-dental.svg",
+  "Home Services": "/images/case-security.svg",
 };
 
-// ─── Industry images ─────────────────────────────────────────────
-const industryImages: Record<string, string> = {
-  "E-Commerce":     "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&h=600&fit=crop",
-  "Restaurant":     "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&h=600&fit=crop",
-  "SaaS":           "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&h=600&fit=crop",
-  "Local Business": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&h=600&fit=crop",
-  "Healthcare":     "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1400&h=600&fit=crop",
-  "Finance":        "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1400&h=600&fit=crop",
-};
-const fallback = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&h=600&fit=crop";
-
-// ─── Metadata ────────────────────────────────────────────────────
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  const study = caseStudies.find((s) => s.slug === slug) as CaseStudy | undefined;
-  if (!study) return { title: "Case Study Not Found" };
-  return {
-    title: `${study.title} | SEO Expert Pakistan`,
-    description: study.description,
-    openGraph: { title: study.title, description: study.description, url: `https://seoexpert.pk/case-studies/${slug}/` },
-  };
+function getCaseImg(slug: string, industry: string): string {
+  // We always return a path — Next.js will use whatever exists
+  // Prefer real screenshots, fall back to SVG placeholder
+  return `/images/case-${slug}.jpg`;
+}
+function getFallbackImg(industry: string): string {
+  return INDUSTRY_SVG[industry] ?? "/images/seo-hero.jpg";
 }
 
+/* ── Metadata ─────────────────────────────────────────────── */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const s = caseStudies.find((x) => x.slug === slug);
+  if (!s) return { title: "Not Found" };
+  return {
+    title: `${s.client} – ${s.title} | Faisal Rehman SEO`,
+    description: s.description,
+    alternates: { canonical: `https://faisalseo.com/case-studies/${slug}/` },
+    openGraph: {
+      title: `${s.title} | Faisal Rehman`,
+      description: s.description,
+      url: `https://faisalseo.com/case-studies/${slug}/`,
+    },
+  };
+}
 export function generateStaticParams() {
   return caseStudies.map((s) => ({ slug: s.slug }));
 }
 
-// ─── Bar chart heights ────────────────────────────────────────────
-function getBarHeights(data: { traffic: number }[]) {
+/* ── Helpers  */
+const Check = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#C9A84C"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ flexShrink: 0, marginTop: 3 }}
+  >
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+function SectionTitle({ icon, text }: { icon: React.ReactNode; text: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        marginBottom: 20,
+      }}
+    >
+      <div
+        style={{
+          width: 38,
+          height: 38,
+          borderRadius: 11,
+          background: "rgba(201,168,76,.1)",
+          border: "1px solid rgba(201,168,76,.2)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+        }}
+      >
+        {icon}
+      </div>
+      <h2
+        style={{
+          fontFamily: "'Cormorant Garamond',serif",
+          fontSize: "clamp(20px,2.8vw,26px)",
+          fontWeight: 700,
+          color: "#fff",
+          margin: 0,
+          lineHeight: 1.2,
+        }}
+      >
+        {text}
+      </h2>
+    </div>
+  );
+}
+
+function barPcts(data: { traffic: number }[]) {
   const max = Math.max(...data.map((d) => d.traffic));
   return data.map((d) => Math.round((d.traffic / max) * 100));
 }
 
-// ─── Page ────────────────────────────────────────────────────────
-export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
+/* ── Page */
+export default async function CaseStudyPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  const study = caseStudies.find((s) => s.slug === slug) as CaseStudy | undefined;
-  if (!study) notFound();
+  const s = caseStudies.find((x) => x.slug === slug);
+  if (!s) notFound();
 
-  const heights = getBarHeights(study.trafficGrowth);
-  const imgSrc  = industryImages[study.industry] ?? fallback;
+  const pcts = barPcts(s.trafficGrowth);
+  const initials = s.client
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+  const heroImg = getCaseImg(slug, s.industry);
+  const fallback = getFallbackImg(s.industry);
 
-  const baMetrics = [
-    { key: "clicks",      label: "Total Clicks"     },
-    { key: "impressions", label: "Impressions"       },
-    { key: "ctr",         label: "CTR"               },
-    { key: "position",    label: "Avg Position"      },
-  ] as const;
-
+  /* ── RENDER ── */
   return (
-    <div className="min-h-screen bg-dark pt-[72px]">
-      {/* ── HERO ── */}
-      <section className="relative py-12 lg:py-16 overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-grid-pattern bg-[size:40px_40px] opacity-25 pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] rounded-full blur-[160px] pointer-events-none" style={{background:"rgba(232,255,71,0.06)"}} />
+    <article style={{ background: "#080810", minHeight: "100vh" }}>
+      {/* ════════════════════════════════════
+          HERO
+      ════════════════════════════════════ */}
+      <header
+        style={{
+          padding: "clamp(88px,12vw,130px) clamp(18px,5vw,60px) 0",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* BG glow */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse 80% 55% at 50% 0%,rgba(201,168,76,.07),transparent 64%)",
+            pointerEvents: "none",
+          }}
+        />
+        {/* Grid lines */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(201,168,76,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.025) 1px,transparent 1px)",
+            backgroundSize: "72px 72px",
+            maskImage:
+              "radial-gradient(ellipse 100% 75% at 50% 0%,black,transparent)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 100% 75% at 50% 0%,black,transparent)",
+            pointerEvents: "none",
+          }}
+        />
 
-        <div className="relative max-w-6xl mx-auto px-6 lg:px-8">
-          {/* Back link */}
-          <Link href="/case-studies/"
-            className="inline-flex items-center gap-2 text-light-muted hover:text-white text-sm mb-8 transition-colors group">
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-            Back to Case Studies
-          </Link>
-
-          {/* Tags */}
-          <div className="flex flex-wrap items-center gap-2 mb-5">
-            <span className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold text-lime-accent border border-lime-accent/25" style={{background:"rgba(232,255,71,0.08)"}}>
-              {study.industry}
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-light-muted border border-white/10 bg-dark-secondary">
-              <MapPin className="w-3 h-3" /> {study.location}
-            </span>
-            {study.timeline && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-light-muted border border-white/10 bg-dark-secondary">
-                <Clock className="w-3 h-3" /> {study.timeline}
-              </span>
-            )}
+        <div
+          style={{
+            maxWidth: 1000,
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 2,
+            textAlign: "center",
+          }}
+        >
+          {/* back link */}
+          <div style={{ textAlign: "center", marginBottom: 28 }}>
+            <Link
+              href="/case-studies/"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 13,
+                fontWeight: 600,
+                color: "var(--muted)",
+                border: "1px solid var(--line)",
+                padding: "8px 16px",
+                borderRadius: 6,
+                textDecoration: "none",
+                transition: ".2s",
+              }}
+            >
+              ← Back to Case Studies
+            </Link>
           </div>
 
-          {/* Title */}
-          <h1 className="font-heading font-extrabold text-white leading-[1.0] tracking-tight mb-5"
-            style={{fontSize:"clamp(2.2rem,5vw,3.8rem)"}}>
-            {study.title} —{" "}
-            <span className="text-lime-accent">{study.industry} Growth</span>
+          {/* eyebrow */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "rgba(201,168,76,.08)",
+              border: "1px solid rgba(201,168,76,.22)",
+              padding: "8px 20px",
+              borderRadius: 100,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: ".15em",
+              textTransform: "uppercase",
+              color: "var(--gold)",
+              marginBottom: 26,
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "var(--gold)",
+                display: "inline-block",
+              }}
+            />
+            Case Study · {s.industry}
+          </div>
+
+          {/* H1 */}
+          <h1
+            style={{
+              fontFamily: "'Cormorant Garamond',serif",
+              fontSize: "clamp(30px,6vw,78px)",
+              fontWeight: 900,
+              lineHeight: 1.06,
+              letterSpacing: "-1px",
+              color: "#fff",
+              marginBottom: 20,
+            }}
+          >
+            {s.title}
           </h1>
-          <p className="text-lg text-light-muted max-w-2xl mb-10 leading-relaxed">{study.description}</p>
 
-          {/* ── Hero 2-col: Image + Contact Form ── */}
-          <div className="grid lg:grid-cols-[1fr_380px] gap-6 mb-10">
-            {/* Left — banner image */}
-            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40">
-              <Image src={imgSrc} alt={study.title} fill sizes="(max-width:1024px) 100vw, 65vw" className="object-cover" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent" />
-            </div>
+          <p
+            style={{
+              fontSize: "clamp(14px,1.8vw,17px)",
+              color: "var(--muted)",
+              lineHeight: 1.82,
+              maxWidth: 660,
+              margin: "0 auto 44px",
+            }}
+          >
+            {s.description}
+          </p>
 
-            {/* Right — inline contact form */}
-            <div className="rounded-2xl border border-white/10 bg-dark-secondary p-6 flex flex-col" id="audit">
-              <h3 className="font-heading font-bold text-white text-lg mb-1">Get a Similar Growth Plan</h3>
-              <p className="text-xs text-light-muted mb-5">Request a free audit and see what is holding your website back.</p>
-              <AuditForm />
-            </div>
+          {/* Result pills row */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: 10,
+              marginBottom: 52,
+            }}
+          >
+            {s.results.map((r) => (
+              <div
+                key={r.metric}
+                style={{
+                  padding: "14px clamp(14px,2.5vw,24px)",
+                  borderRadius: 14,
+                  border: "1px solid rgba(201,168,76,.2)",
+                  background: "rgba(201,168,76,.06)",
+                  minWidth: 110,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'Cormorant Garamond',serif",
+                    fontSize: "clamp(22px,3.5vw,30px)",
+                    fontWeight: 700,
+                    color: "var(--gold)",
+                    lineHeight: 1,
+                  }}
+                >
+                  {r.value}
+                </div>
+                <div
+                  style={{
+                    fontSize: 10.5,
+                    color: "var(--muted)",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: ".05em",
+                    marginTop: 4,
+                  }}
+                >
+                  {r.metric}
+                </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: "rgba(201,168,76,.5)",
+                    marginTop: 2,
+                  }}
+                >
+                  {r.label}
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* ── 4 Result stats ── */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            {study.results.map((r) => (
-              <div key={r.metric} className="p-5 rounded-xl bg-dark-secondary border border-white/[6%] text-center hover:border-lime-accent/20 transition-colors">
-                <div className="font-heading font-extrabold text-lime-accent text-3xl leading-none mb-1">{r.value}</div>
-                <div className="text-xs text-light-muted font-mono uppercase tracking-wide">{r.metric}</div>
-                <div className="text-[10px] text-lime-accent/50 font-mono mt-0.5">{r.label}</div>
+          {/* Client strip */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "clamp(12px,3vw,28px)",
+              flexWrap: "wrap",
+              borderTop: "1px solid var(--line)",
+              paddingTop: 22,
+              paddingBottom: 22,  
+              width: "100%",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              {/* <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 11,
+                  background: "var(--gold)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "'Cormorant Garamond',serif",
+                  fontWeight: 900,
+                  fontSize: 15,
+                  color: "#000",
+                  flexShrink: 0,
+                }}
+              >
+                {initials}
+              </div> */}
+              <div style={{ textAlign: "left" }}>
+                <div style={{ fontWeight: 700, fontSize: 14, color: "#fff" }}>
+                  {s.client}
+                </div>
+                <div style={{ fontSize: 11.5, color: "var(--muted)" }}>
+                  {s.industry}
+                </div>
+              </div>
+            </div>
+            {[
+              ["Industry", s.industry],
+              ["Location", s.location],
+              ["Timeline", s.timeline ?? "Ongoing"],
+              ["Status",  "Completed"],
+            ].map(([k, v]) => (
+              <div
+                key={k}
+                style={{
+                  textAlign: "center",
+                  padding: "0 12px",
+                  borderLeft: "1px solid var(--line)",
+                }}
+              >
+                <b
+                  style={{
+                    display: "block",
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    color: "#fff",
+                  }}
+                >
+                  {k}
+                </b>
+                <span
+                  style={{
+                    fontSize: 11,
+                    color: k === "Status" ? "#34C759" : "var(--muted)",
+                  }}
+                >
+                  {v}
+                </span>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* ── MAIN BODY ── */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          {/* 2-col: content + sticky sidebar */}
-          <div className="grid lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_320px] gap-12 lg:gap-14 items-start">
-
-            {/* ── LEFT CONTENT ── */}
-            <div className="space-y-14">
-
-              {/* Challenge */}
-              <ScrollReveal>
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                      <TrendingUp className="w-4 h-4" />
-                    </div>
-                    <h2 className="font-heading font-bold text-xl text-white">The Challenge</h2>
-                  </div>
-                  <p className="text-light-muted leading-relaxed text-[15px]">{study.challenge}</p>
+      {/* ════════════════════════════════════
+          BEFORE / AFTER
+      ════════════════════════════════════ */}
+      {s.beforeAfter && (
+        <section
+          style={{
+            background: "var(--dark2)",
+            borderTop: "1px solid var(--line)",
+            borderBottom: "1px solid var(--line)",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              padding: "clamp(44px,7vw,80px) clamp(18px,5vw,60px)",
+            }}
+          >
+            <div className="sec-label">Search Console Data</div>
+            <h2 className="sec-title">
+              Before &amp; After <span className="gold">Results</span>
+            </h2>
+            <div className="divider-line" />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 0,
+                marginTop: 30,
+                borderRadius: 20,
+                overflow: "hidden",
+              }}
+              className="ba-grid"
+            >
+              {/* BEFORE */}
+              <div
+                style={{
+                  padding: "clamp(20px,3.5vw,32px)",
+                  background: "rgba(255,59,48,.05)",
+                  border: "1px solid rgba(255,59,48,.16)",
+                  borderRadius: "16px 0 0 16px",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: ".2em",
+                    textTransform: "uppercase",
+                    color: "#FF3B30",
+                    marginBottom: 22,
+                  }}
+                >
+                  BEFORE
                 </div>
-              </ScrollReveal>
-
-              {/* Strategy */}
-              <ScrollReveal delay={0.05}>
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                      <Trophy className="w-4 h-4" />
+                {[
+                  [s.beforeAfter.before.clicks, "Monthly Clicks"],
+                  [s.beforeAfter.before.impressions, "Impressions"],
+                  [s.beforeAfter.before.ctr, "Click-Through Rate"],
+                  [s.beforeAfter.before.position, "Avg. Position"],
+                ].map(([val, lbl]) => (
+                  <div key={lbl} style={{ marginBottom: 18 }}>
+                    <div
+                      style={{
+                        fontFamily: "'Cormorant Garamond',serif",
+                        fontSize: "clamp(22px,4vw,38px)",
+                        fontWeight: 700,
+                        lineHeight: 1,
+                        color: "#FF3B30",
+                      }}
+                    >
+                      {val}
                     </div>
-                    <h2 className="font-heading font-bold text-xl text-white">SEO Strategy</h2>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: "var(--muted)",
+                        marginTop: 4,
+                      }}
+                    >
+                      {lbl}
+                    </div>
                   </div>
-                  <ul className="space-y-2.5">
-                    {study.strategy.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-[15px] text-light-muted">
-                        <CheckCircle2 className="w-4 h-4 text-lime-accent mt-0.5 shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                ))}
+              </div>
+              {/* AFTER */}
+              <div
+                style={{
+                  padding: "clamp(20px,3.5vw,32px)",
+                  background: "rgba(52,199,89,.05)",
+                  border: "1px solid rgba(52,199,89,.16)",
+                  borderRadius: "0 16px 16px 0",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: ".2em",
+                    textTransform: "uppercase",
+                    color: "#34C759",
+                    marginBottom: 22,
+                  }}
+                >
+                  AFTER
                 </div>
-              </ScrollReveal>
+                {[
+                  [s.beforeAfter.after.clicks, "Monthly Clicks"],
+                  [s.beforeAfter.after.impressions, "Impressions"],
+                  [s.beforeAfter.after.ctr, "Click-Through Rate"],
+                  [s.beforeAfter.after.position, "Avg. Position"],
+                ].map(([val, lbl]) => (
+                  <div key={lbl} style={{ marginBottom: 18 }}>
+                    <div
+                      style={{
+                        fontFamily: "'Cormorant Garamond',serif",
+                        fontSize: "clamp(22px,4vw,38px)",
+                        fontWeight: 700,
+                        lineHeight: 1,
+                        color: "#34C759",
+                      }}
+                    >
+                      {val}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: "var(--muted)",
+                        marginTop: 4,
+                      }}
+                    >
+                      {lbl}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
-              {/* AI SEO */}
-              <ScrollReveal delay={0.05}>
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                      <Brain className="w-4 h-4" />
-                    </div>
-                    <h2 className="font-heading font-bold text-xl text-white">AI SEO Implementation</h2>
-                  </div>
-                  <ul className="space-y-2.5">
-                    {study.aiSeoImplementation.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-[15px] text-light-muted">
-                        <CheckCircle2 className="w-4 h-4 text-lime-accent mt-0.5 shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </ScrollReveal>
-
-              {/* Technical */}
-              <ScrollReveal delay={0.05}>
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                      <Wrench className="w-4 h-4" />
-                    </div>
-                    <h2 className="font-heading font-bold text-xl text-white">Technical Improvements</h2>
-                  </div>
-                  <ul className="space-y-2.5">
-                    {study.technicalImprovements.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-[15px] text-light-muted">
-                        <CheckCircle2 className="w-4 h-4 text-lime-accent mt-0.5 shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </ScrollReveal>
-
-              {/* Traffic Growth Chart */}
-              <ScrollReveal delay={0.05}>
-                <div>
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                      <TrendingUp className="w-4 h-4" />
-                    </div>
-                    <h2 className="font-heading font-bold text-xl text-white">Traffic Growth</h2>
-                  </div>
-                  <div className="rounded-2xl bg-dark-secondary border border-white/[6%] p-5">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] text-light-muted/60 font-mono uppercase tracking-widest">Monthly Organic Traffic</span>
-                      <span className="text-[10px] font-mono text-lime-accent px-2.5 py-1 rounded-full" style={{background:"rgba(232,255,71,0.08)"}}>
-                        {study.results[0].value} Growth
-                      </span>
-                    </div>
-                    <div className="flex items-end gap-2 h-36">
-                      {heights.map((h, i) => (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
-                          <div className="w-full rounded-t-sm transition-all"
-                            style={{height:`${h}%`, background: i === heights.length-1 ? "#e8ff47" : `rgba(232,255,71,${0.12 + i * 0.025})`}} />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex justify-between mt-2">
-                      {study.trafficGrowth.map((d) => (
-                        <span key={d.month} className="text-[9px] text-light-muted/40 font-mono flex-1 text-center">{d.month}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-
-              {/* Before / After */}
-              {study.beforeAfter && (
-                <ScrollReveal delay={0.05}>
-                  <div>
-                    <div className="flex items-center gap-3 mb-5">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                        <TrendingUp className="w-4 h-4" />
-                      </div>
-                      <h2 className="font-heading font-bold text-xl text-white">Before & After Results</h2>
-                    </div>
-                    <div className="rounded-2xl border border-white/[6%] overflow-hidden">
-                      {/* Header row */}
-                      <div className="grid grid-cols-5 gap-0 bg-dark-tertiary">
-                        <div className="p-3 border-r border-white/5" />
-                        {baMetrics.map((m) => (
-                          <div key={m.key} className="p-3 text-center border-r border-white/5 last:border-r-0">
-                            <span className="text-[10px] font-mono text-light-muted/60 uppercase tracking-wide">{m.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                      {/* Before row */}
-                      <div className="grid grid-cols-5 gap-0 bg-dark-secondary border-t border-white/5">
-                        <div className="p-4 border-r border-white/5 flex items-center">
-                          <span className="font-heading font-bold text-sm text-light-muted">Before</span>
-                        </div>
-                        {baMetrics.map((m) => (
-                          <div key={m.key} className="p-4 text-center border-r border-white/5 last:border-r-0">
-                            <div className="font-heading font-bold text-base text-white">{study.beforeAfter!.before[m.key]}</div>
-                          </div>
-                        ))}
-                      </div>
-                      {/* After row */}
-                      <div className="grid grid-cols-5 gap-0 border-t border-white/5" style={{background:"rgba(232,255,71,0.03)"}}>
-                        <div className="p-4 border-r border-white/5 flex items-center">
-                          <span className="font-heading font-bold text-sm text-lime-accent">After</span>
-                        </div>
-                        {baMetrics.map((m) => (
-                          <div key={m.key} className="p-4 text-center border-r border-white/5 last:border-r-0">
-                            <div className="font-heading font-bold text-base text-lime-accent">{study.beforeAfter!.after[m.key]}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              )}
-
-              {/* Keyword Wins */}
-              <ScrollReveal delay={0.05}>
-                <div>
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-lime-accent" style={{background:"rgba(232,255,71,0.1)"}}>
-                      <Key className="w-4 h-4" />
-                    </div>
-                    <h2 className="font-heading font-bold text-xl text-white">Keyword Ranking Wins</h2>
-                  </div>
-                  <div className="rounded-2xl border border-white/[6%] overflow-hidden">
-                    <div className="grid grid-cols-3 bg-dark-tertiary px-5 py-3">
-                      {["Keyword", "Position", "Search Intent"].map((h) => (
-                        <div key={h} className="text-[10px] font-mono text-light-muted/60 uppercase tracking-wider">{h}</div>
-                      ))}
-                    </div>
-                    {study.keywordWins.map((kw, i) => (
-                      <div key={kw.keyword}
-                        className={`grid grid-cols-3 px-5 py-4 border-t border-white/[5%] items-center hover:bg-dark-tertiary transition-colors ${i%2===0 ? "bg-dark-secondary" : "bg-dark"}`}>
-                        <div className="text-sm text-white font-mono pr-4 truncate">{kw.keyword}</div>
-                        <div>
-                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full font-heading font-bold text-lime-accent text-[11px]"
-                            style={{background:"rgba(232,255,71,0.1)"}}>
-                            #{kw.position}
-                          </span>
-                        </div>
-                        <div className="text-xs text-light-muted font-mono">{kw.volume.toLocaleString()} / mo</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-
-              {/* CTA panel */}
-              <ScrollReveal delay={0.05}>
-                <div className="rounded-2xl border p-8 text-center"
-                  style={{background:"linear-gradient(135deg,rgba(17,17,17,0.95),rgba(12,12,12,0.95))", borderColor:"rgba(255,255,255,0.08)"}}>
-                  <h2 className="font-heading font-extrabold text-2xl text-white mb-3">Want Similar Results?</h2>
-                  <p className="text-light-muted max-w-lg mx-auto text-sm mb-6 leading-relaxed">
-                    Let&apos;s review your website, competitors, and top SEO opportunities. You&apos;ll get a clear growth roadmap before you invest.
-                  </p>
-                  <a href="#audit"
-                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-lime-accent text-dark font-bold rounded-full hover:bg-white transition-all text-sm"
-                    style={{boxShadow:"0 0 30px rgba(232,255,71,0.2)"}}>
-                    Start Your SEO Project
-                    <ArrowUpRight className="w-4 h-4" />
-                  </a>
-                </div>
-              </ScrollReveal>
+      {/* ════════════════════════════════════
+          MAIN BODY (2 col on desktop)
+      ════════════════════════════════════ */}
+      <div
+        style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          padding: "clamp(48px,7vw,80px) clamp(18px,5vw,60px)",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 300px",
+            gap: 52,
+            alignItems: "start",
+          }}
+          className="cs-body-grid"
+        >
+          {/* ─────── LEFT COLUMN ─────── */}
+          <div>
+            {/* Hero image */}
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "16/9",
+                borderRadius: 20,
+                overflow: "hidden",
+                border: "1px solid var(--line)",
+                marginBottom: 52,
+                boxShadow: "0 24px 60px rgba(0,0,0,.45)",
+              }}
+            >
+              <Image
+                src={heroImg}
+                alt={`${s.client} – ${s.industry} SEO Case Study`}
+                fill
+                priority
+                sizes="(max-width:767px) 100vw,(max-width:1024px) 70vw,65vw"
+                style={{ objectFit: "cover" }}
+                onError={undefined}
+              />
+              {/* overlay gradient */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to top,rgba(8,8,16,.6) 0%,transparent 50%)",
+                }}
+              />
+              {/* badges */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 14,
+                  left: 16,
+                  display: "flex",
+                  gap: 8,
+                }}
+              >
+                <span
+                  style={{
+                    padding: "5px 12px",
+                    borderRadius: 999,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    background: "var(--gold)",
+                    color: "#000",
+                  }}
+                >
+                  {s.industry}
+                </span>
+                <span
+                  style={{
+                    padding: "5px 12px",
+                    borderRadius: 999,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    background: "rgba(0,0,0,.65)",
+                    color: "#fff",
+                    border: "1px solid rgba(255,255,255,.18)",
+                  }}
+                >
+                  {s.location}
+                </span>
+              </div>
             </div>
 
-            {/* ── RIGHT STICKY SIDEBAR ── */}
-            <aside className="hidden lg:flex flex-col gap-5 sticky top-24">
+            {/* ── The Challenge ── */}
+            <div style={{ marginBottom: 52 }}>
+              <SectionTitle
+                text="The Challenge"
+                icon={
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C9A84C"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  >
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  </svg>
+                }
+              />
+              <p
+                style={{
+                  color: "var(--muted)",
+                  fontSize: "clamp(14px,1.6vw,15.5px)",
+                  lineHeight: 1.88,
+                }}
+              >
+                {s.challenge}
+              </p>
+            </div>
 
-              {/* Client info card */}
-              <div className="rounded-2xl bg-dark-secondary border border-white/[6%] overflow-hidden">
-                <div className="px-5 py-4 border-b border-white/5">
-                  <span className="text-[10px] font-mono text-light-muted/60 uppercase tracking-widest">Client Details</span>
-                </div>
-                <div className="divide-y divide-white/[4%]">
-                  {[
-                    { label: "Client",    value: study.client   },
-                    { label: "Industry",  value: study.industry  },
-                    { label: "Location",  value: study.location  },
-                    { label: "Timeline",  value: study.timeline ?? "Ongoing" },
-                  ].map((row) => (
-                    <div key={row.label} className="flex items-center justify-between px-5 py-3.5">
-                      <span className="text-xs text-light-muted">{row.label}</span>
-                      <span className="text-xs font-semibold text-white">{row.value}</span>
+            {/* ── SEO Strategy ── */}
+            <div style={{ marginBottom: 52 }}>
+              <SectionTitle
+                text="SEO Strategy & Execution"
+                icon={
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C9A84C"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                }
+              />
+              <div
+                style={{
+                  background: "rgba(255,255,255,.025)",
+                  border: "1px solid rgba(255,255,255,.06)",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                }}
+              >
+                {s.strategy.map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 14,
+                      padding: "13px 20px",
+                      borderBottom:
+                        i < s.strategy.length - 1
+                          ? "1px solid rgba(255,255,255,.04)"
+                          : "none",
+                      background:
+                        i % 2 === 0 ? "rgba(255,255,255,.01)" : "transparent",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: 7,
+                        background: "rgba(201,168,76,.1)",
+                        border: "1px solid rgba(201,168,76,.18)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        fontFamily: "'Cormorant Garamond',serif",
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: "var(--gold)",
+                      }}
+                    >
+                      {i + 1}
                     </div>
+                    <span
+                      style={{
+                        color: "#C8D0D8",
+                        fontSize: "clamp(13px,1.5vw,14.5px)",
+                        lineHeight: 1.68,
+                      }}
+                    >
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── AI SEO ── */}
+            <div style={{ marginBottom: 52 }}>
+              <SectionTitle
+                text="AI SEO / GEO Implementation"
+                icon={
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C9A84C"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                }
+              />
+              <div style={{ display: "grid", gap: 10 }}>
+                {s.aiSeoImplementation.map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 12,
+                      padding: "13px 16px",
+                      background: "rgba(255,255,255,.025)",
+                      border: "1px solid rgba(255,255,255,.06)",
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Check />
+                    <span
+                      style={{
+                        color: "#C8D0D8",
+                        fontSize: "clamp(13px,1.5vw,14.5px)",
+                        lineHeight: 1.68,
+                      }}
+                    >
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Technical ── */}
+            <div style={{ marginBottom: 52 }}>
+              <SectionTitle
+                text="Technical SEO Improvements"
+                icon={
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C9A84C"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                  </svg>
+                }
+              />
+              <div style={{ display: "grid", gap: 10 }}>
+                {s.technicalImprovements.map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 12,
+                      padding: "13px 16px",
+                      background: "rgba(255,255,255,.025)",
+                      border: "1px solid rgba(255,255,255,.06)",
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Check />
+                    <span
+                      style={{
+                        color: "#C8D0D8",
+                        fontSize: "clamp(13px,1.5vw,14.5px)",
+                        lineHeight: 1.68,
+                      }}
+                    >
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Traffic Growth Chart ── */}
+            <div style={{ marginBottom: 52 }}>
+              <SectionTitle
+                text="Traffic Growth (Monthly)"
+                icon={
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C9A84C"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  >
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                    <polyline points="16 7 22 7 22 13" />
+                  </svg>
+                }
+              />
+              <div
+                style={{
+                  background: "rgba(255,255,255,.025)",
+                  border: "1px solid rgba(255,255,255,.06)",
+                  borderRadius: 18,
+                  padding: "clamp(16px,3vw,26px)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 11,
+                      color: "rgba(138,137,153,.55)",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: ".1em",
+                    }}
+                  >
+                    Monthly Organic Traffic
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: "var(--gold)",
+                      background: "rgba(201,168,76,.08)",
+                      padding: "4px 12px",
+                      borderRadius: 999,
+                    }}
+                  >
+                    {s.results[0].value} Growth
+                  </span>
+                </div>
+                {/* bars */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-end",
+                    gap: "clamp(3px,1vw,8px)",
+                    height: "clamp(80px,14vw,120px)",
+                    marginBottom: 8,
+                  }}
+                >
+                  {pcts.map((pct, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        flex: 1,
+                        borderRadius: "3px 3px 0 0",
+                        minHeight: 4,
+                        background:
+                          i === pcts.length - 1
+                            ? "var(--gold)"
+                            : `rgba(201,168,76,${0.11 + i * 0.028})`,
+                        height: `${pct}%`,
+                      }}
+                    />
                   ))}
                 </div>
-              </div>
-
-              {/* Tools card */}
-              <div className="rounded-2xl bg-dark-secondary border border-white/[6%] p-5">
-                <span className="text-[10px] font-mono text-light-muted/60 uppercase tracking-widest block mb-4">Tools Used</span>
-                <div className="flex flex-wrap gap-2">
-                  {study.tools.map((tool) => (
-                    <span key={tool}
-                      className="px-2.5 py-1 rounded-full text-[11px] font-mono text-light-muted border border-white/10 bg-dark hover:border-lime-accent/20 transition-colors">
-                      {tool}
+                {/* labels */}
+                <div style={{ display: "flex" }}>
+                  {s.trafficGrowth.map((d) => (
+                    <span
+                      key={d.month}
+                      style={{
+                        flex: 1,
+                        textAlign: "center",
+                        fontSize: 9,
+                        color: "rgba(138,137,153,.4)",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {d.month}
                     </span>
                   ))}
                 </div>
+                {/* summary row */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: 14,
+                    paddingTop: 12,
+                    borderTop: "1px solid rgba(255,255,255,.05)",
+                  }}
+                >
+                  <span style={{ fontSize: 12, color: "var(--muted)" }}>
+                    Start: {s.trafficGrowth[0].traffic.toLocaleString()} / mo
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "var(--gold)",
+                    }}
+                  >
+                    Peak:{" "}
+                    {s.trafficGrowth[
+                      s.trafficGrowth.length - 1
+                    ].traffic.toLocaleString()}{" "}
+                    / mo
+                  </span>
+                </div>
               </div>
+            </div>
 
-              {/* Testimonial card */}
-              <div className="rounded-2xl border p-5" style={{background:"rgba(232,255,71,0.04)", borderColor:"rgba(232,255,71,0.18)"}}>
-                <div className="text-3xl text-lime-accent mb-2 font-heading leading-none">&ldquo;</div>
-                <p className="text-sm text-light-muted leading-relaxed mb-4 italic">{study.testimonial.quote}</p>
-                <div className="flex items-center gap-3 pt-3 border-t border-lime-accent/10">
-                  <div className="w-9 h-9 rounded-full bg-lime-accent flex items-center justify-center text-dark font-heading font-bold text-sm shrink-0">
-                    {study.testimonial.author[0]}
+            {/* ── Keyword Rankings ── */}
+            <div style={{ marginBottom: 52 }}>
+              <SectionTitle
+                text="Keyword Ranking Wins"
+                icon={
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C9A84C"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                  </svg>
+                }
+              />
+              <div
+                style={{
+                  border: "1px solid rgba(255,255,255,.06)",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                }}
+              >
+                {/* header */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 76px 110px",
+                    background: "rgba(255,255,255,.03)",
+                    padding: "10px 18px",
+                  }}
+                >
+                  {["Keyword", "Pos.", "Vol / mo"].map((h) => (
+                    <span
+                      key={h}
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: ".08em",
+                        color: "var(--muted2)",
+                      }}
+                    >
+                      {h}
+                    </span>
+                  ))}
+                </div>
+                {s.keywordWins.map((kw, i) => (
+                  <div
+                    key={kw.keyword}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 76px 110px",
+                      padding: "12px 18px",
+                      borderTop: "1px solid rgba(255,255,255,.04)",
+                      background:
+                        i % 2 === 0 ? "rgba(255,255,255,.015)" : "transparent",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "clamp(11px,1.3vw,13.5px)",
+                        color: "#C8D0D8",
+                        fontFamily: "monospace",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {kw.keyword}
+                    </span>
+                    <span>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: 28,
+                          height: 28,
+                          borderRadius: "50%",
+                          background: "rgba(201,168,76,.1)",
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: "var(--gold)",
+                        }}
+                      >
+                        #{kw.position}
+                      </span>
+                    </span>
+                    <span style={{ fontSize: 12, color: "var(--muted)" }}>
+                      {kw.volume.toLocaleString()}
+                    </span>
                   </div>
-                  <div>
-                    <div className="text-sm font-semibold text-white">{study.testimonial.author}</div>
-                    <div className="text-xs text-light-muted">{study.testimonial.role}, {study.testimonial.company}</div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Testimonial ── */}
+            <div
+              style={{
+                borderRadius: 22,
+                padding: "clamp(24px,4vw,42px)",
+                background:
+                  "linear-gradient(145deg,rgba(201,168,76,.08),rgba(255,255,255,.02))",
+                border: "1px solid rgba(201,168,76,.22)",
+                position: "relative",
+                overflow: "hidden",
+                marginBottom: 52,
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: -14,
+                  left: 24,
+                  fontSize: 110,
+                  color: "rgba(201,168,76,.07)",
+                  fontFamily: "'Cormorant Garamond',serif",
+                  lineHeight: 1,
+                  pointerEvents: "none",
+                }}
+              >
+                &ldquo;
+              </div>
+              <p
+                style={{
+                  fontFamily: "'Cormorant Garamond',serif",
+                  fontSize: "clamp(15px,2vw,20px)",
+                  lineHeight: 1.84,
+                  color: "#DDD8CC",
+                  fontStyle: "italic",
+                  position: "relative",
+                  zIndex: 1,
+                  marginBottom: 0,
+                }}
+              >
+                &ldquo;{s.testimonial.quote}&rdquo;
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 14,
+                  marginTop: 24,
+                  paddingTop: 20,
+                  borderTop: "1px solid rgba(201,168,76,.12)",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: "50%",
+                    background: "var(--gold)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "'Cormorant Garamond',serif",
+                    fontWeight: 900,
+                    fontSize: 18,
+                    color: "#000",
+                    flexShrink: 0,
+                  }}
+                >
+                  {s.testimonial.author[0]}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: "#fff" }}>
+                    {s.testimonial.author}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 12.5,
+                      color: "var(--muted)",
+                      marginTop: 2,
+                    }}
+                  >
+                    {s.testimonial.role}, {s.testimonial.company}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    color: "var(--gold)",
+                    fontSize: 15,
+                    letterSpacing: 3,
+                  }}
+                >
+                  ★★★★★
+                </div>
+              </div>
+            </div>
+
+            {/* ── Bottom CTA ── */}
+            <div
+              style={{
+                borderRadius: 24,
+                padding: "clamp(32px,5vw,56px) clamp(20px,5vw,52px)",
+                textAlign: "center",
+                background:
+                  "linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015))",
+                border: "1px solid rgba(201,168,76,.2)",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "radial-gradient(ellipse 80% 50% at 50% 100%,rgba(201,168,76,.07),transparent 62%)",
+                  pointerEvents: "none",
+                }}
+              />
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <h2
+                  style={{
+                    fontFamily: "'Cormorant Garamond',serif",
+                    fontSize: "clamp(24px,4vw,48px)",
+                    fontWeight: 900,
+                    color: "#fff",
+                    marginBottom: 14,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Want{" "}
+                  <em style={{ color: "var(--gold)", fontStyle: "normal" }}>
+                    Similar Results?
+                  </em>
+                </h2>
+                <p
+                  style={{
+                    color: "var(--muted)",
+                    fontSize: "clamp(13px,1.5vw,16px)",
+                    lineHeight: 1.8,
+                    marginBottom: 28,
+                    maxWidth: 460,
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  Let&apos;s review your website, competitors, and top SEO
+                  opportunities — clear growth roadmap, no obligation.
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 14,
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Link
+                    href="/?goto=contact"
+                    className="btn-gold"
+                    style={{
+                      fontSize: 14,
+                      padding: "14px 30px",
+                      borderRadius: 8,
+                      fontWeight: 700,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      border: "2px solid var(--gold)",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Start Your SEO Project →
+                  </Link>
+                  <Link
+                    href="/case-studies/"
+                    className="btn-outline"
+                    style={{
+                      fontSize: 14,
+                      padding: "14px 30px",
+                      textDecoration: "none",
+                    }}
+                  >
+                    View More Cases
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ─────── STICKY SIDEBAR ─────── */}
+          <aside
+            style={{
+              position: "sticky",
+              top: 88,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+            }}
+            className="cs-sidebar"
+          >
+            {/* Client card */}
+            <div
+              style={{
+                borderRadius: 16,
+                background: "rgba(255,255,255,.04)",
+                border: "1px solid rgba(255,255,255,.07)",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  padding: "11px 16px",
+                  borderBottom: "1px solid rgba(255,255,255,.05)",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 9.5,
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: ".14em",
+                    color: "var(--muted2)",
+                  }}
+                >
+                  Client Details
+                </span>
+              </div>
+              {[
+                ["Client", s.client],
+                ["Industry", s.industry],
+                ["Location", s.location],
+                ["Timeline", s.timeline ?? "Ongoing"],
+              ].map(([k, v]) => (
+                <div
+                  key={k}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "11px 16px",
+                    borderBottom: "1px solid rgba(255,255,255,.04)",
+                  }}
+                >
+                  <span style={{ fontSize: 12, color: "var(--muted)" }}>
+                    {k}
+                  </span>
+                  <span
+                    style={{ fontSize: 12, fontWeight: 600, color: "#fff" }}
+                  >
+                    {v}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Tools */}
+            <div
+              style={{
+                borderRadius: 16,
+                background: "rgba(255,255,255,.04)",
+                border: "1px solid rgba(255,255,255,.07)",
+                padding: 16,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 9.5,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: ".14em",
+                  color: "var(--muted2)",
+                  display: "block",
+                  marginBottom: 12,
+                }}
+              >
+                Tools Used
+              </span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {s.tools.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: "var(--muted)",
+                      border: "1px solid rgba(255,255,255,.1)",
+                      background: "rgba(255,255,255,.03)",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Mini testimonial */}
+            <div
+              style={{
+                borderRadius: 16,
+                padding: 16,
+                background: "rgba(201,168,76,.04)",
+                border: "1px solid rgba(201,168,76,.18)",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 32,
+                  color: "var(--gold)",
+                  fontFamily: "'Cormorant Garamond',serif",
+                  lineHeight: 1,
+                  marginBottom: 8,
+                }}
+              >
+                &ldquo;
+              </div>
+              <p
+                style={{
+                  fontSize: 12.5,
+                  color: "var(--muted)",
+                  lineHeight: 1.75,
+                  fontStyle: "italic",
+                  marginBottom: 14,
+                }}
+              >
+                {s.testimonial.quote.length > 120
+                  ? s.testimonial.quote.slice(0, 120) + "…"
+                  : s.testimonial.quote}
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  paddingTop: 12,
+                  borderTop: "1px solid rgba(201,168,76,.1)",
+                }}
+              >
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: "var(--gold)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 13,
+                    fontWeight: 800,
+                    color: "#000",
+                    flexShrink: 0,
+                    fontFamily: "'Cormorant Garamond',serif",
+                  }}
+                >
+                  {s.testimonial.author[0]}
+                </div>
+                <div>
+                  <div
+                    style={{ fontSize: 12.5, fontWeight: 600, color: "#fff" }}
+                  >
+                    {s.testimonial.author}
+                  </div>
+                  <div style={{ fontSize: 10.5, color: "var(--muted)" }}>
+                    {s.testimonial.role}
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Related CTA */}
-              <Link href="/case-studies/"
-                className="group flex items-center justify-between p-4 rounded-xl bg-dark-secondary border border-white/[6%] hover:border-lime-accent/20 transition-all">
-                <span className="text-sm font-medium text-white">View All Case Studies</span>
-                <ArrowUpRight className="w-4 h-4 text-lime-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
-            </aside>
-          </div>
+            {/* Sidebar CTAs */}
+            <Link
+              href="/?goto=contact"
+              className="btn-gold"
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                fontSize: 13,
+                padding: "12px 16px",
+                borderRadius: 10,
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                border: "2px solid var(--gold)",
+                textDecoration: "none",
+              }}
+            >
+              Get Similar Results →
+            </Link>
+            <Link
+              href="/case-studies/"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "12px 15px",
+                borderRadius: 12,
+                background: "rgba(255,255,255,.04)",
+                border: "1px solid rgba(255,255,255,.07)",
+                fontSize: 12.5,
+                fontWeight: 500,
+                color: "var(--muted)",
+                textDecoration: "none",
+                transition: ".2s",
+              }}
+            >
+              ← All Case Studies
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--gold)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </aside>
         </div>
-      </section>
-    </div>
+      </div>
+
+      {/* ── Responsive overrides ── */}
+      <style>{`
+        @media(max-width:1024px){
+          .cs-body-grid{ grid-template-columns:1fr !important; }
+          .cs-sidebar  { display:none !important; }
+        }
+        @media(max-width:767px){
+          .ba-grid{ grid-template-columns:1fr !important; }
+          .ba-grid>div:first-child{ border-radius:16px 16px 0 0 !important; }
+          .ba-grid>div:last-child { border-radius:0 0 16px 16px !important; border-left:1px solid rgba(52,199,89,.16) !important; border-top:none !important; }
+        }
+      `}</style>
+    </article>
   );
 }
