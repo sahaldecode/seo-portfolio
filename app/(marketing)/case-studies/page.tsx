@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { caseStudies } from "@/content/case-studies/data";
-import { useEffect } from "react";
 
 export const metadata: Metadata = {
   title: "Case Studies | Local SEO Results – Faisal Rehman",
@@ -355,7 +354,6 @@ export default function CaseStudiesPage() {
           ))}
         </div>
 
-      
 
         {/* Bottom CTA */}
         <div
