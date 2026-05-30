@@ -84,6 +84,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+        {/* search console */}
+        <meta name="google-site-verification" content="4QiCV71ONxUtPxVIuhECRgBMfSp5un-O08K1wvKA3MU" />
       </head>
       <body className={`${inter.variable} ${cormorant.variable} ${sora.variable} min-h-screen overflow-x-hidden`}>
         <StructuredData />
