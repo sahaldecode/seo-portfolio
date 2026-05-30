@@ -18,24 +18,24 @@ export function ProcessTimeline() {
     return () => obs.disconnect();
   }, []);
 
-  return (
-    <div ref={ref} className="bg-dark2">
-      <div className="section">
-        <div className="sec-center reveal">
-          <div className="sec-label">Services</div>
-          <h2 className="sec-title">Top Notch <span className="gold">Local SEO Services</span></h2>
-          <div className="divider-line" />
-        </div>
-        <div className="g3 process-grid" style={{ marginTop: 44 }}>
-          {services.map(s => (
-            <div key={s.num} className="card reveal">
-              <div className="process-num">{s.num}</div>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+//   return (
+//     <div ref={ref} className="bg-dark2">
+//       <div className="section">
+//         <div className="sec-center reveal">
+//           <div className="sec-label">Services</div>
+//           <h2 className="sec-title">Top Notch <span className="gold">Local SEO Services</span></h2>
+//           <div className="divider-line" />
+//         </div>
+//         <div className="g3 process-grid" style={{ marginTop: 44 }}>
+//           {services.map(s => (
+//             <div key={s.num} className="card reveal">
+//               <div className="process-num">{s.num}</div>
+//               <h3>{s.title}</h3>
+//               <p>{s.desc}</p>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
 }

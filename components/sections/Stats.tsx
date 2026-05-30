@@ -12,7 +12,7 @@ export function Stats({ onNavigate }: StatsProps) {
   }, []);
 
   return (
-    <div ref={ref} className="section">
+    <div ref={ref} className="section bg-dark2">
       <div className="cta-band reveal">
         <div className="sec-label" style={{ justifyContent: "center" }}>Start Now</div>
         <h2 className="sec-title" style={{ fontSize: "clamp(28px,4vw,52px)", marginBottom: 16 }}>Let&apos;s Build Your <span className="gold">SEO Growth System</span></h2>

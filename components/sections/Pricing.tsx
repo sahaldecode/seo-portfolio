@@ -5,13 +5,13 @@ interface PricingProps { onNavigate: (page: string) => void; preview?: boolean; 
 
 const plans = [
   {
-    label: "Starter", name: "SEO Audit", price: "$1,500", period: "/ one-time",
+    label: "Starter", name: "SEO Audit", price: "$1,000", period: "/ one-time",
     desc: "For businesses that need clarity, a full issues report, quick wins and a focused SEO roadmap before committing to ongoing work.",
     features: ["Full website SEO audit","GBP audit & competitor review","Keyword opportunity report","Technical issues checklist","Priority action roadmap","1 follow-up Q&A call"],
     cta: "Start Audit", featured: false,
   },
   {
-    label: "Most Popular", name: "Growth Plan", price: "$3,500", period: "/ month",
+    label: "Most Popular", name: "Growth Plan", price: "$2,000", period: "/ month",
     desc: "For local businesses wanting active SEO implementation, consistent improvements and measurable month-over-month growth.",
     features: ["Local SEO implementation","GBP optimization & posting","Technical fixes & monitoring","Service & location page SEO","Citation building","Monthly performance reporting","Direct communication"],
     cta: "Book Strategy Call →", featured: true,

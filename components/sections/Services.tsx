@@ -1,20 +1,80 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { BarChart3, Brain, Globe2, ImagePlus, MapPin, Paintbrush2, RadioTower, SearchCheck, Sparkles } from "lucide-react";
 
-interface ServicesProps { onNavigate?: (page: string) => void; preview?: boolean; }
+import { useEffect, useRef } from "react";
+import {
+BarChart3,
+Brain,
+Clapperboard,
+Globe2,
+MapPin,
+Megaphone,
+RadioTower,
+SearchCheck,
+Sparkles,
+} from "lucide-react";
+
+interface ServicesProps {
+onNavigate?: (page: string) => void;
+preview?: boolean;
+}
 
 const services = [
-  { icon: MapPin, title: "Local SEO", desc: "Improve visibility for service keywords, city searches, and 'near me' queries with local SEO strategies focused on rankings, Google Maps visibility, topical authority, internal linking, and local intent optimization.", best: "Best for: Service businesses, clinics, contractors" },
-  { icon: BarChart3, title: "GMB / GBP Optimization", desc: "Optimize your Google Business Profile with the right categories, services, business descriptions, reviews, local signals, photos, posts, and engagement strategies to improve Google Maps rankings and increase inbound calls.", best: "Best for: Any local business with a GBP listing" },
-  { icon: Globe2, title: "Local Website Development", desc: "Fast, modern, conversion-focused local business websites built with WordPress and Elementor Pro — optimized for Core Web Vitals, local SEO, user experience, mobile performance, and lead generation.", best: "Best for: New sites, redesigns, landing pages" },
-  { icon: RadioTower, title: "Local Service Ads (LSA)", desc: "Full LSA setup and ongoing optimization for high-intent calls, Google-verified leads and precise service-area targeting at the best cost per lead.", best: "Best for: Home services, healthcare, legal" },
-  { icon: Sparkles, title: "Technical SEO", desc: "Comprehensive fixes for speed, indexing, crawlability, Core Web Vitals, schema, internal link structure, heading hierarchy and mobile performance.", best: "Best for: Sites with traffic drops or indexing issues" },
-  { icon: Brain, title: "AI SEO / GEO", desc: "Improve your brand's visibility in ChatGPT, Gemini, Perplexity, Google AI Overviews and answer engines through entity optimization and structured content.", best: "Best for: Brands wanting future-proof SEO" },
-  { icon: Paintbrush2, title: "UI/UX Design", desc: "User-centered interface design that increases engagement, reduces bounce rate and turns more website visitors into customers and leads.", best: "Best for: Websites needing conversion improvements" },
-  { icon: ImagePlus, title: "Graphic Design", desc: "Brand identity, social media graphics, banners and print-ready assets that reinforce trust, local recognition and professional credibility.", best: "Best for: New brands or rebrands" },
-  { icon: SearchCheck, title: "SEO Audits", desc: "Comprehensive audits covering technical, on-page, local, GBP, competitor and AI search readiness — delivered with a clear, prioritized action roadmap.", best: "Best for: Businesses wanting clarity before investing" },
+{
+icon: MapPin,
+title: "Local SEO",
+desc: "Rank higher for city, service, and near me searches with local SEO focused on Google visibility, local intent, service pages, and lead generation.",
+best: "Best for: Service businesses, clinics, and contractors",
+},
+{
+icon: BarChart3,
+title: "GMB / GBP Optimization",
+desc: "Optimize your Google Business Profile with the right categories, services, photos, posts, reviews, and local signals to improve Maps rankings.",
+best: "Best for: Any local business with a GBP listing",
+},
+{
+icon: Globe2,
+title: "Local Website Development",
+desc: "Get a modern, custom, and personalized website in any language or CMS, built for speed, trust, mobile experience, and more leads.",
+best: "Best for: New sites, redesigns, and landing pages",
+},
+{
+icon: RadioTower,
+title: "Local Service Ads (LSA)",
+desc: "Set up and optimize Google Local Service Ads to generate verified, high-intent calls with better targeting and lower cost per lead.",
+best: "Best for: Home services, healthcare, and legal businesses",
+},
+{
+icon: Sparkles,
+title: "Technical SEO",
+desc: "Fix speed, indexing, crawlability, Core Web Vitals, schema, site structure, internal links, headings, and mobile SEO issues.",
+best: "Best for: Sites with traffic drops or indexing issues",
+},
+{
+icon: Brain,
+title: "AI SEO / GEO",
+desc: "Improve your visibility in ChatGPT, Gemini, Perplexity, Google AI Overviews, and answer engines through entity SEO and structured content.",
+best: "Best for: Brands wanting future-proof SEO visibility",
+},
+{
+icon: SearchCheck,
+title: "Local SEO Audit",
+desc: "Get a clear audit of your website, Google Business Profile, rankings, competitors, citations, technical issues, and missed local growth opportunities.",
+best: "Best for: Businesses wanting clarity before investing",
+},
+{
+icon: Megaphone,
+title: "Social Media Management",
+desc: "Build trust and stay active online with consistent posts, branded content, profile optimization, local engagement, and monthly content planning.",
+best: "Best for: Businesses wanting stronger brand presence",
+},
+{
+icon: Clapperboard,
+title: "Video Editing",
+desc: "Create clean, professional videos for reels, ads, YouTube, testimonials, and promotions with captions, engaging cuts, and branded visuals.",
+best: "Best for: Businesses wanting better reels, ads, and video content",
+},
 ];
+
 
 export function Services({ onNavigate, preview }: ServicesProps) {
   const ref = useRef<HTMLDivElement>(null);

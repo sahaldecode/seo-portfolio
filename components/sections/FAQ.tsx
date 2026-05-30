@@ -27,7 +27,7 @@ export function FAQ({ onNavigate, preview }: FAQProps) {
   const displayed = preview ? faqs.slice(0, 7) : faqs;
 
   return (
-    <div ref={ref} className="bg-dark2">
+    <div ref={ref} className="section">
       <div className="section">
         <div className="sec-center reveal">
           <div className="sec-label">FAQ</div>

@@ -16,7 +16,7 @@ export function Testimonials() {
   }, []);
 
   return (
-    <div ref={ref} className="section">
+    <div ref={ref} className="section bg-dark2">
       <div className="sec-center reveal">
         <div className="sec-label">Client Reviews</div>
         <h2 className="sec-title">What Clients &amp; <span className="gold">Partners Say</span></h2>

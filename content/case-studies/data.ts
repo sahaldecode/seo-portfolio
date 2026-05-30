@@ -102,14 +102,14 @@ export interface CaseStudy {
 //  PLACEHOLDER MAP  (auto-used when image field is empty)
 // ─────────────────────────────────────────────────────────────────
 export const INDUSTRY_PLACEHOLDER: Record<string, string> = {
-  Cleaning: "/images/case-cleaning.svg",
-  HVAC: "/images/case-hvac.svg",
-  Healthcare: "/images/case-healthcare.svg",
-  Roofing: "/images/case-roofing.svg",
-  Dental: "/images/case-dental.svg",
-  "Home Services": "/images/case-security.svg",
+  Cleaning: "/images/Seo.png",
+  HVAC: "/images/Seo.png",
+  Healthcare: "/images/Seo.png",
+  Roofing: "/images/Seo.png",
+  Dental: "/images/Seo.png",
+  "Home Services": "/images/Seo.png",
 };
-export const DEFAULT_PLACEHOLDER = "/images/seo-hero.jpg";
+export const DEFAULT_PLACEHOLDER = "/images/seo.png";
 
 // Helper used by both list page and detail page
 export function getCaseImage(study: CaseStudy): string {
@@ -133,7 +133,7 @@ export const caseStudies: CaseStudy[] = [
     // 🖼️  ADD YOUR IMAGE HERE
     // Step 1: Put your file in  public/images/  e.g.  fresh-start.jpg
     // Step 2: Set the path below, e.g:  image: "/images/fresh-start.jpg"
-    image: "/images/Fresh Start Facility SEO.png", // ← paste your image path here
+    image: "/images/Seo.png", // ← paste your image path here
 
     description:
       "How a complete Local SEO overhaul helped Fresh Start Facility Services improve organic visibility, attract more qualified visitors, and move important cleaning service keywords closer to Page 1.",
@@ -237,7 +237,7 @@ export const caseStudies: CaseStudy[] = [
     industry: "HVAC",
     location: "Bluffton, USA",
     timeline: "8 Months",
-    image: "/images/Go-to-Superior.png", // ← e.g. "/images/go-to-superior-hvac.jpg"
+    image: "/images/Seo.png", // ← e.g. "/images/go-to-superior-hvac.jpg"
 
     description:
       "A focused Local SEO and Google Business Profile campaign that helped Go To Superior HVAC rank #1 for “HVAC Bluffton,” improve Google Maps visibility, and increase inbound calls by 87% during both peak and off-peak seasons.",
@@ -328,414 +328,601 @@ export const caseStudies: CaseStudy[] = [
       { keyword: "air conditioning repair Bluffton", position: 3, volume: 180 },
     ],
   },
+// 3. Cottijohnhvac -------------
+   {
+slug: "cotti-johnson-hvac",
+title: "Improving Local HVAC Visibility Across Taunton & Raynham",
+client: "Cotti-Johnson HVAC",
+industry: "HVAC, Plumbing & Electrical",
+location: "Taunton & Raynham, MA",
+timeline: "6 Months",
+image: "/images/Seo.png",
 
-{
-    slug: "go-to-superior-hvac",
-    title: "HVAC Company Dominates Local Maps",
-    client: "Go To Superior HVAC",
-    industry: "HVAC",
-    location: "USA",
-    timeline: "8 Months",
-    image: "", // ← e.g.  "/images/go-to-superior-hvac.jpg"
-    description:
-      "Local SEO and GBP campaign that pushed Go To Superior HVAC to the top of Google Maps and increased inbound calls by 87% — during both peak and off-peak seasons.",
-    results: [
-      { metric: "Inbound Calls", value: "+87%", label: "from Google" },
-      { metric: "Maps Visibility", value: "+210%", label: "impressions" },
-      { metric: "Bookings", value: "+52%", label: "organic bookings" },
-      { metric: "Local Keywords", value: "Top 3", label: "for 18 keywords" },
-    ],
-    beforeAfter: {
-      before: {
-        clicks: "920",
-        impressions: "180K",
-        ctr: "0.9%",
-        position: "34.2",
-      },
-      after: {
-        clicks: "4,100",
-        impressions: "680K",
-        ctr: "3.1%",
-        position: "11.8",
-      },
-    },
-    challenge:
-      "Go To Superior HVAC was losing jobs to bigger competitors who dominated the Google Maps 3-pack. Their GBP had minimal photos, no service area definition, and their website lacked any location-specific pages. During the slow season, call volume dropped to almost zero from organic search — they were entirely dependent on paid ads.",
-    strategy: [
-      "Complete GBP audit and re-optimization — categories, attributes, service list",
-      "Service area mapping strategy targeting 14 specific city/suburb combinations",
-      "Emergency HVAC keyword targeting for high-urgency search queries",
-      "Seasonal content strategy — cooling season vs heating season focus",
-      "Before/after photo campaigns and review generation system",
-      "Local backlink acquisition from HVAC supplier directories and local business associations",
-    ],
-    aiSeoImplementation: [
-      "AI-optimized service descriptions for HVAC-specific search intent",
-      "FAQ schema targeting HVAC troubleshooting questions",
-      "Entity optimization for HVAC brand visibility in AI search",
-      "Voice search optimization for urgent queries like HVAC repair near me",
-    ],
-    technicalImprovements: [
-      "Built 14 location-specific landing pages with unique content",
-      "Implemented LocalBusiness + HVAC-specific schema markup",
-      "Site speed improved — mobile LCP from 5.2s to 1.9s",
-      "Click-to-call buttons and contact forms optimized for conversion",
-      "Google Business Profile posts automated — 2 posts per week",
-    ],
-    tools: [
-      "Google Business Profile",
-      "BrightLocal",
-      "Ahrefs",
-      "CallRail",
-      "PageSpeed Insights",
-      "Screaming Frog",
-    ],
-    testimonial: {
-      quote:
-        "Our phone rings constantly now. Last summer was our best season ever and we attribute most of that growth to Faisal's SEO work. We are ranking in maps for basically every city we service.",
-      author: "Tom R.",
-      role: "Owner",
-      company: "Go To Superior HVAC",
-    },
-    trafficGrowth: [
-      { month: "Jan", traffic: 320 },
-      { month: "Feb", traffic: 410 },
-      { month: "Mar", traffic: 580 },
-      { month: "Apr", traffic: 700 },
-      { month: "May", traffic: 820 },
-      { month: "Jun", traffic: 950 },
-      { month: "Jul", traffic: 2850 },
-      { month: "Aug", traffic: 1850 },
-    ],
-    keywordWins: [
-      { keyword: "HVAC repair near me", position: 1, volume: 8100 },
-      { keyword: "AC installation [city]", position: 2, volume: 3600 },
-      { keyword: "emergency HVAC service", position: 1, volume: 2900 },
-      { keyword: "furnace repair near me", position: 3, volume: 4400 },
-      {
-        keyword: "air conditioning tune up near me",
-        position: 2,
-        volume: 2200,
-      },
-    ],
-  },
+description:
+"A local SEO and service-page optimization campaign that helped Cotti-Johnson HVAC improve visibility for heating, cooling, plumbing, and electrical searches across Taunton, Raynham, and nearby service areas.",
+
+results: [
+{ metric: "Inbound Calls", value: "+64%", label: "from Google" },
+{ metric: "Maps Visibility", value: "+118%", label: "local impressions" },
+{ metric: "Service Leads", value: "+46%", label: "from organic search" },
+{ metric: "Local Keywords", value: "Top 5", label: "for 22 keywords" },
+],
+
+beforeAfter: {
+before: {
+clicks: "140",
+impressions: "11.7K",
+ctr: "1.2%",
+position: "28.7",
+},
+after: {
+clicks: "2,140",
+impressions: "58K",
+ctr: "3.7%",
+position: "10.9",
+},
+},
+
+challenge:
+"Cotti-Johnson HVAC had strong real-world trust, years of service history, and a wide range of home comfort services, including HVAC, plumbing, electrical, heating, cooling, and duct cleaning. However, the website was not capturing enough local organic traffic from high-intent searches in Taunton, Raynham, and nearby service areas. Before the campaign, the website generated only 140 organic clicks from 11.7K impressions, with a 1.2% CTR and an average position of 28.7. Several important service pages were under-optimized, local keyword targeting was weak, and the site structure did not clearly connect core services with the main service areas. The main challenge was to improve rankings, increase qualified traffic, and turn stronger visibility into more calls and service leads.",
+
+strategy: [
+"Completed a full local SEO audit across HVAC, heating, cooling, plumbing, electrical, duct cleaning, and service area pages.",
+"Improved keyword targeting for core services including AC repair, heating repair, furnace repair, boiler services, water heaters, electrical troubleshooting, and duct cleaning.",
+"Strengthened local relevance for Taunton, Raynham, and surrounding Massachusetts service areas.",
+"Optimized service page headings, metadata, internal links, FAQs, and calls-to-action to better match high-intent local searches.",
+"Improved Google Business Profile signals with better service coverage, local updates, photo activity, and category alignment.",
+"Built a clearer internal linking structure between primary services, sub-services, and service area pages.",
+],
+
+aiSeoImplementation: [
+"Structured service content around natural customer questions for HVAC, plumbing, electrical, and emergency service searches.",
+"Added FAQ-style content for AC repair, heating problems, water heater issues, duct cleaning, and electrical troubleshooting queries.",
+"Improved entity signals around Cotti-Johnson HVAC, Taunton, Raynham, HVAC services, plumbing services, electrical services, and local home comfort solutions.",
+"Optimized content for voice-style searches such as AC repair near me, heating repair in Taunton, plumber near me, and electrician near me.",
+],
+
+technicalImprovements: [
+"Improved service page structure with clearer H1, H2, and FAQ sections.",
+"Implemented LocalBusiness, HVACBusiness, Service, and FAQ schema where relevant.",
+"Improved internal linking from main service categories to supporting sub-service pages.",
+"Enhanced mobile user experience with clearer click-to-call and request service CTAs.",
+"Reviewed indexability, metadata, and page structure for core service and location pages.",
+"Improved page-level optimization to support both organic rankings and local conversion actions.",
+],
+
+tools: [
+"Google Search Console",
+"Google Business Profile",
+"Google Analytics 4",
+"BrightLocal",
+"Ahrefs",
+"Screaming Frog",
+"PageSpeed Insights",
+],
+
+testimonial: {
+quote:
+"The SEO improvements helped us get stronger visibility across more of our service areas and service categories. We started seeing more calls from people searching for HVAC, plumbing, and electrical services locally.",
+author: "Client Representative",
+role: "Operations Team",
+company: "Cotti-Johnson HVAC",
+},
+
+trafficGrowth: [
+{ month: "Month 1", traffic: 10 },
+{ month: "Month 2", traffic: 140 },
+{ month: "Month 3", traffic: 285 },
+{ month: "Month 4", traffic: 420 },
+{ month: "Month 5", traffic: 725 },
+{ month: "Month 6", traffic: 2140 },
+],
+
+keywordWins: [
+{ keyword: "HVAC services Taunton MA", position: 3, volume: 250 },
+{ keyword: "AC repair Taunton MA", position: 4, volume: 200 },
+{ keyword: "heating repair Taunton MA", position: 4, volume: 180 },
+{ keyword: "plumber Taunton MA", position: 5, volume: 300 },
+{ keyword: "electrician Taunton MA", position: 5, volume: 220 },
+],
+},
 
   // ── 3. Fraum Center Healthcare ───────────────────────────────────
   {
-    slug: "fraum-center-healthcare",
-    title: "+120% Organic Traffic for Healthcare Clinic",
-    client: "Fraum Center",
-    industry: "Healthcare",
-    location: "USA",
-    timeline: "10 Months",
-    image: "", // ← e.g.  "/images/fraum-center.jpg"
-    description:
-      "Healthcare local SEO campaign that rebuilt Fraum Center's entire online authority — resulting in 120% organic traffic growth and dominant positions for high-value patient search terms.",
-    results: [
-      { metric: "Organic Traffic", value: "+120%", label: "in 10 months" },
-      { metric: "Appointment Calls", value: "+68%", label: "from organic" },
-      { metric: "Local Pack", value: "Top 3", label: "for 22 keywords" },
-      { metric: "Domain Authority", value: "28→46", label: "improvement" },
-    ],
-    beforeAfter: {
-      before: {
-        clicks: "1,200",
-        impressions: "310K",
-        ctr: "1.4%",
-        position: "27.1",
-      },
-      after: {
-        clicks: "3,800",
-        impressions: "920K",
-        ctr: "3.2%",
-        position: "13.4",
-      },
-    },
-    challenge:
-      "Fraum Center was a well-established healthcare practice with strong patient outcomes — but their digital presence did not reflect their real-world reputation. Competing practices were outranking them despite offering lower quality care. Their website lacked E-E-A-T signals, had no condition-specific pages, and their GBP was losing to newer competitors with better optimization.",
-    strategy: [
-      "E-E-A-T authority building — doctor bios, credentials, patient outcome pages",
-      "Condition and treatment-specific landing pages (12 new pages created)",
-      "Local citation audit across 60+ healthcare directories",
-      "GBP optimization with health-specific categories and attributes",
-      "Patient review generation and response strategy",
-      "Healthcare-specific link building through medical associations and local press",
-    ],
-    aiSeoImplementation: [
-      "Medical FAQ schema targeting patient symptom searches",
-      "Structured content for healthcare AI Overview eligibility",
-      "Entity optimization for doctor names and medical specialties",
-      "Semantic content cluster around each treatment area",
-    ],
-    technicalImprovements: [
-      "HIPAA-compliant contact forms and privacy policy updates",
-      "Core Web Vitals: LCP improved from 4.1s to 1.6s",
-      "Structured data: MedicalBusiness, Physician, MedicalCondition schemas",
-      "Internal linking restructured around patient journey",
-      "Image optimization — 200+ images compressed and properly alt-tagged",
-    ],
-    tools: [
-      "Google Search Console",
-      "Ahrefs",
-      "SEMrush",
-      "Screaming Frog",
-      "BrightLocal",
-      "Google Analytics 4",
-    ],
-    testimonial: {
-      quote:
-        "We had tried SEO before with poor results. Faisal took a completely different approach — he understood healthcare marketing and built something that actually brings in new patients consistently.",
-      author: "Dr. Sarah M.",
-      role: "Medical Director",
-      company: "Fraum Center",
-    },
-    trafficGrowth: [
-      { month: "Jan", traffic: 1100 },
-      { month: "Feb", traffic: 1320 },
-      { month: "Mar", traffic: 1580 },
-      { month: "Apr", traffic: 1890 },
-      { month: "May", traffic: 2200 },
-      { month: "Jun", traffic: 2580 },
-      { month: "Jul", traffic: 2800 },
-      { month: "Aug", traffic: 3100 },
-    ],
-    keywordWins: [
-      { keyword: "chiropractor near me", position: 2, volume: 9900 },
-      { keyword: "physical therapy [city]", position: 1, volume: 4400 },
-      { keyword: "sports injury clinic near me", position: 3, volume: 2900 },
-      { keyword: "back pain treatment specialist", position: 2, volume: 3600 },
-      { keyword: "neck pain chiropractor near me", position: 1, volume: 2200 },
-    ],
-  },
+slug: "fraum-center-healthcare",
+title: "+120% Organic Traffic for Healthcare Clinic In Hilton Head Island",
+client: "Fraum Center",
+industry: "Healthcare",
+location: "Hilton Head Island, SC",
+timeline: "6 Months",
+image: "/images/Seo.png",
+
+description:
+"A healthcare local SEO campaign that strengthened Fraum Center's online authority, improved visibility for high-value patient search terms, and increased organic traffic across chiropractic, restorative medicine, and non-surgical pain relief services.",
+
+results: [
+{ metric: "Organic Traffic", value: "+120%", label: "in 6 months" },
+{ metric: "Patient Leads", value: "+72%", label: "from organic search" },
+{ metric: "Local Visibility", value: "+96%", label: "healthcare searches" },
+{ metric: "Treatment Keywords", value: "Top 5", label: "for 26 keywords" },
+],
+
+beforeAfter: {
+before: {
+clicks: "220",
+impressions: "15.7K",
+ctr: "1.4%",
+position: "24.6",
+},
+after: {
+clicks: "2,465",
+impressions: "44K",
+ctr: "5.6%",
+position: "9.8",
+},
+},
+
+challenge:
+"Fraum Center had strong clinical credibility, an experienced care team, and a wide range of non-surgical treatment options, but the website needed a stronger SEO structure to capture high-intent patient searches. Before the campaign, the website generated only 220 organic clicks from 15.7K impressions, with a 1.4% CTR and an average position of 24.6. Important condition and treatment pages were not fully optimized around how patients actually search for care, such as back pain relief, knee pain treatment, spinal decompression, chiropractic care, neuropathy treatment, and non-surgical pain solutions in Hilton Head. The site also needed better topical authority, stronger internal linking, and clearer service-to-condition connections. The main challenge was to turn Fraum Center's real-world medical authority into stronger Google visibility, more qualified organic traffic, and more patient inquiries.",
+
+strategy: [
+"Completed a healthcare SEO audit across condition pages, treatment pages, provider pages, blog content, and local landing pages.",
+"Improved keyword targeting for high-intent patient searches including back pain, knee pain, neck pain, neuropathy, spinal decompression, chiropractic care, and restorative medicine.",
+"Rebuilt the content structure to connect patient conditions with relevant non-surgical treatment options.",
+"Strengthened local relevance for Hilton Head Island and surrounding service areas.",
+"Improved internal linking between condition pages, treatment pages, care team pages, FAQs, and conversion pages.",
+"Optimized calls-to-action to help more organic visitors request consultations and contact the clinic.",
+],
+
+aiSeoImplementation: [
+"Structured healthcare content around natural patient questions and symptom-based search intent.",
+"Added FAQ-style content for common patient concerns related to knee pain, back pain, neck pain, shoulder pain, hip pain, neuropathy, and spinal decompression.",
+"Improved entity signals around Fraum Center, Hilton Head Island, chiropractic care, restorative medicine, physician-led care, non-surgical pain relief, and patient wellness.",
+"Optimized content for voice-style searches such as back pain doctor near me, knee pain treatment in Hilton Head, spinal decompression near me, and chiropractor in Hilton Head.",
+],
+
+technicalImprovements: [
+"Improved page structure with clearer H1, H2, FAQ, and treatment explanation sections.",
+"Implemented LocalBusiness, MedicalClinic, Physician, Service, and FAQ schema where relevant.",
+"Improved metadata for condition pages, treatment pages, and local healthcare search terms.",
+"Strengthened internal linking from high-authority pages to important treatment and condition pages.",
+"Reviewed indexability, crawl structure, duplicate content risks, and page-level SEO issues.",
+"Improved mobile conversion paths with clearer appointment, call, and consultation CTAs.",
+],
+
+tools: [
+"Google Search Console",
+"Google Business Profile",
+"Google Analytics 4",
+"Ahrefs",
+"Screaming Frog",
+"PageSpeed Insights",
+"BrightLocal",
+],
+
+testimonial: {
+quote:
+"The SEO campaign helped us improve visibility for the treatments and conditions our patients are actively searching for. We saw stronger organic traffic, better local visibility, and more qualified patient inquiries from Google.",
+author: "Client Representative",
+role: "Practice Team",
+company: "Fraum Center",
+},
+
+trafficGrowth: [
+{ month: "Month 1", traffic: 220 },
+{ month: "Month 2", traffic: 340 },
+{ month: "Month 3", traffic: 620 },
+{ month: "Month 4", traffic: 940 },
+{ month: "Month 5", traffic: 1600 },
+{ month: "Month 6", traffic: 2465 },
+],
+
+keywordWins: [
+{ keyword: "chiropractor Hilton Head", position: 2, volume: 350 },
+{ keyword: "spinal decompression Hilton Head", position: 3, volume: 120 },
+{ keyword: "back pain treatment Hilton Head", position: 4, volume: 180 },
+{ keyword: "knee pain treatment Hilton Head", position: 4, volume: 150 },
+{ keyword: "neuropathy treatment Hilton Head", position: 5, volume: 110 },
+],
+},
 
   // ── 4. Elite Roofing ─────────────────────────────────────────────
   {
-    slug: "elite-roofing",
-    title: "#1 Rankings & +300% Monthly Leads for Roofing Co.",
-    client: "Elite Roofing",
-    industry: "Roofing",
-    location: "USA",
-    timeline: "7 Months",
-    image: "", // ← e.g.  "/images/elite-roofing.jpg"
-    description:
-      "Comprehensive local SEO strategy that pushed Elite Roofing to #1 for 15+ high-value keywords in a competitive metro market — tripling monthly leads from organic search.",
-    results: [
-      { metric: "Monthly Leads", value: "+300%", label: "from organic" },
-      { metric: "Keywords #1", value: "15+", label: "top position" },
-      { metric: "Call Volume", value: "+190%", label: "monthly calls" },
-      { metric: "Revenue", value: "+240%", label: "organic-sourced" },
-    ],
-    challenge:
-      "Elite Roofing was competing against national franchise brands with massive budgets. Despite 12 years of local experience, they were invisible online. Their website was outdated with no local SEO structure, no service pages for specific roofing types, and their GBP was unverified and incomplete.",
-    strategy: [
-      "Hyper-local keyword strategy targeting storm damage, insurance claims, specific roofing materials",
-      "Individual pages for: roof replacement, repairs, gutters, storm damage, insurance claims",
-      "Neighborhood and suburb targeting — 22 location pages created",
-      "Seasonal campaign strategy around storm season and weather events",
-      "Local link acquisition through homeowner associations and contractors network",
-      "Review velocity campaign to outpace franchise competitors in ratings",
-    ],
-    aiSeoImplementation: [
-      "Storm damage and emergency roofing intent optimization",
-      "Insurance claim keyword targeting with dedicated landing pages",
-      "AI Overview optimization for roofing cost and process queries",
-      "Semantic content clusters around roofing materials and lifespan",
-    ],
-    technicalImprovements: [
-      "Complete website rebuild with proper local SEO architecture",
-      "Roofing contractor schema markup with license and insurance details",
-      "Photo gallery optimization — 60+ before/after project photos",
-      "Conversion rate optimization — estimate form conversion up 3.2x",
-      "Page speed: mobile score from 32 to 91 on PageSpeed Insights",
-    ],
-    tools: [
-      "Ahrefs",
-      "SEMrush",
-      "BrightLocal",
-      "Google Business Profile",
-      "CallRail",
-      "PageSpeed Insights",
-    ],
-    testimonial: {
-      quote:
-        "I was skeptical because we had been burned by SEO agencies before. Faisal was different — he showed up with a real plan and delivered real results. Our busiest season ever.",
-      author: "Jason K.",
-      role: "Owner",
-      company: "Elite Roofing",
-    },
-    trafficGrowth: [
-      { month: "Jan", traffic: 280 },
-      { month: "Feb", traffic: 420 },
-      { month: "Mar", traffic: 780 },
-      { month: "Apr", traffic: 1280 },
-      { month: "May", traffic: 1950 },
-      { month: "Jun", traffic: 2600 },
-      { month: "Jul", traffic: 3100 },
-      { month: "Aug", traffic: 3800 },
-    ],
-    keywordWins: [
-      { keyword: "roof replacement near me", position: 1, volume: 6600 },
-      { keyword: "roofing contractor [city]", position: 1, volume: 4400 },
-      { keyword: "storm damage roof repair", position: 2, volume: 3600 },
-      { keyword: "roof repair cost near me", position: 3, volume: 8100 },
-      { keyword: "emergency roof repair near me", position: 1, volume: 2900 },
-    ],
-  },
+slug: "elite-roofing-local-seo",
+title: "#1 Rankings & +300% Monthly Leads for Roofing Co In Toronto, CA.",
+client: "Elite Roofing",
+industry: "Roofing",
+location: "Greater Toronto Area, Canada",
+timeline: "8 Months",
+image: "/images/Seo.png",
+
+description:
+"A comprehensive local SEO campaign that helped Elite Roofing improve visibility for high-value roofing searches across the Greater Toronto Area, reach #1 rankings for competitive service keywords, and increase monthly organic leads by 300%.",
+
+results: [
+{ metric: "Monthly Leads", value: "+300%", label: "from organic search" },
+{ metric: "Keywords #1", value: "15+", label: "top positions" },
+{ metric: "Call Volume", value: "+190%", label: "monthly calls" },
+{ metric: "Revenue", value: "+240%", label: "organic-sourced" },
+],
+
+beforeAfter: {
+before: {
+clicks: "310",
+impressions: "24.8K",
+ctr: "1.3%",
+position: "31.4",
+},
+after: {
+clicks: "2,980",
+impressions: "59.6K",
+ctr: "5.0%",
+position: "8.6",
+},
+},
+
+challenge:
+"Elite Roofing had strong real-world authority, decades of experience, and a wide range of roofing services across the Greater Toronto Area. However, the website was not fully capturing high-intent organic traffic for commercial roofing, industrial roofing, roof repair, roof replacement, roof maintenance, and flat roofing searches. Before the campaign, the website generated only 310 organic clicks from 24.8K impressions, with a 1.3% CTR and an average position of 31.4. Important roofing service pages were not ranking strongly enough against larger competitors, and local search visibility was spread across service categories without a clear SEO growth structure. The main challenge was to improve rankings for competitive roofing keywords, strengthen service-page authority, and turn organic search traffic into more calls, quote requests, and booked roofing projects.",
+
+strategy: [
+"Completed a full local SEO audit across commercial roofing, industrial roofing, residential roofing, roof repair, roof replacement, roof maintenance, and flat roofing pages.",
+"Improved keyword targeting for high-intent searches connected to roofing contractors, commercial roof repair, flat roof replacement, roof inspections, and emergency roofing services.",
+"Strengthened local relevance for the Greater Toronto Area and surrounding service locations.",
+"Optimized service page headings, metadata, internal links, FAQs, and calls-to-action to better match buyer-intent roofing searches.",
+"Improved Google Business Profile signals with stronger service coverage, photo activity, local updates, and category alignment.",
+"Built a clearer internal linking structure between roofing services, project pages, blog resources, and conversion pages.",
+],
+
+aiSeoImplementation: [
+"Structured roofing content around natural customer questions and commercial property owner search intent.",
+"Added FAQ-style content for roof repair, roof replacement, flat roofing, commercial roofing, inspections, maintenance, and emergency roofing queries.",
+"Improved entity signals around Elite Roofing, Greater Toronto Area, roofing contractors, industrial roofing, commercial roof repair, flat roofing systems, and roof maintenance.",
+"Optimized content for voice-style and AI-search queries such as roofing contractor near me, commercial roof repair in Toronto, flat roof replacement GTA, and emergency roof repair near me.",
+],
+
+technicalImprovements: [
+"Improved service page structure with clearer H1, H2, FAQ, project proof, and conversion sections.",
+"Implemented LocalBusiness, RoofingContractor, Service, FAQ, and Review schema where relevant.",
+"Improved metadata for core roofing service pages and local commercial roofing search terms.",
+"Strengthened internal linking from high-authority project and blog pages to important service pages.",
+"Reviewed crawl structure, indexability, duplicate metadata, broken links, and page-level SEO issues.",
+"Improved mobile conversion paths with clearer call buttons, quote request CTAs, and service inquiry sections.",
+],
+
+tools: [
+"Google Search Console",
+"Google Business Profile",
+"Google Analytics 4",
+"Ahrefs",
+"Screaming Frog",
+"PageSpeed Insights",
+"BrightLocal",
+],
+
+testimonial: {
+quote:
+"The SEO campaign helped us become more visible for important roofing searches across the GTA. We started receiving more qualified calls and quote requests from commercial and residential customers finding us through Google.",
+author: "Client Representative",
+role: "Marketing Team",
+company: "Elite Roofing",
+},
+
+trafficGrowth: [
+{ month: "Month 1", traffic: 310 },
+{ month: "Month 2", traffic: 485 },
+{ month: "Month 3", traffic: 720 },
+{ month: "Month 4", traffic: 980 },
+{ month: "Month 5", traffic: 1360 },
+{ month: "Month 6", traffic: 1785 },
+{ month: "Month 7", traffic: 2320 },
+{ month: "Month 8", traffic: 2980 },
+],
+
+keywordWins: [
+{ keyword: "commercial roofing Toronto", position: 1, volume: 450 },
+{ keyword: "roofing contractors GTA", position: 1, volume: 350 },
+{ keyword: "flat roof repair Toronto", position: 2, volume: 300 },
+{ keyword: "commercial roof repair Toronto", position: 2, volume: 250 },
+{ keyword: "roof replacement Toronto", position: 3, volume: 400 },
+],
+},
 
   // ── 5. Bright Smile Dental ───────────────────────────────────────
   {
-    slug: "bright-smile-dental",
-    title: "#1 Local Pack for 9 Dental Keywords",
-    client: "Bright Smile Dental",
-    industry: "Dental",
-    location: "USA",
-    timeline: "5 Months",
-    image: "", // ← e.g.  "/images/bright-smile-dental.jpg"
-    description:
-      "GBP optimization and local SEO strategy that placed Bright Smile Dental at #1 in the local pack for 9 service keywords and grew new patient appointments by 87%.",
-    results: [
-      { metric: "Local Pack #1", value: "9", label: "keywords" },
-      { metric: "Appointments", value: "+87%", label: "new patients" },
-      { metric: "GBP Calls", value: "+145%", label: "monthly" },
-      { metric: "Review Rating", value: "4.8★", label: "avg Google" },
-    ],
-    challenge:
-      "Bright Smile Dental was a newer practice competing against well-established dental offices with hundreds of reviews. Their GBP was barely set up, they had no procedure-specific pages, and local citations were either missing or inconsistent across directories — causing Google to distrust their location signals.",
-    strategy: [
-      "Complete NAP consistency audit and cleanup across 50+ directories",
-      "GBP optimization: categories, services, booking integration, Q&A",
-      "Procedure pages: teeth whitening, implants, Invisalign, emergency dental",
-      "Review generation workflow — automated post-appointment request system",
-      "Local backlinks from dental associations and health directories",
-      "Google Posts strategy — 2 posts per week with seasonal offers",
-    ],
-    aiSeoImplementation: [
-      "Dental FAQ schema targeting patient pre-appointment questions",
-      "Insurance and cost content targeting high commercial-intent queries",
-      "Entity SEO — dentist name, practice name, and specialty optimization",
-      "AI search optimization for best dentist near me type queries",
-    ],
-    technicalImprovements: [
-      "Dentist and DentalClinic schema markup with opening hours and accepted insurance",
-      "Appointment booking integration with schema markup",
-      "Before/after gallery with proper image schema",
-      "HTTPS security audit and mixed content fixes",
-      "Mobile UX improvements — contact and booking CTAs above fold",
-    ],
-    tools: [
-      "Google Business Profile",
-      "BrightLocal",
-      "Ahrefs",
-      "Birdeye",
-      "PageSpeed Insights",
-    ],
-    testimonial: {
-      quote:
-        "Within 3 months we were getting more new patient calls than from our paid ads — and those patients convert better because they found us organically. Faisal delivered exactly what he promised.",
-      author: "Dr. Lisa C.",
-      role: "Practice Owner",
-      company: "Bright Smile Dental",
-    },
-    trafficGrowth: [
-      { month: "Jan", traffic: 580 },
-      { month: "Feb", traffic: 720 },
-      { month: "Mar", traffic: 980 },
-      { month: "Apr", traffic: 1280 },
-      { month: "May", traffic: 1620 },
-      { month: "Jun", traffic: 1950 },
-      { month: "Jul", traffic: 2300 },
-      { month: "Aug", traffic: 2680 },
-    ],
-    keywordWins: [
-      { keyword: "dentist near me", position: 1, volume: 12100 },
-      { keyword: "teeth whitening near me", position: 2, volume: 5400 },
-      { keyword: "dental implants [city]", position: 1, volume: 3600 },
-      { keyword: "emergency dentist near me", position: 3, volume: 8100 },
-      { keyword: "Invisalign provider near me", position: 2, volume: 2900 },
-    ],
-  },
+slug: "dental-smiles-local-seo",
+title: "#1 Local Pack for 9 Dental Keywords",
+client: "Dental Smiles",
+industry: "Dental",
+location: "Lakewood, CA",
+timeline: "5 Months",
+image: "/images/Seo.png",
 
-  // ── 6. HomeGuard Security ────────────────────────────────────────
+description:
+"A Google Business Profile optimization and local SEO campaign that helped Dental Smiles improve local pack visibility for high-intent dental searches and grow new patient appointment requests by 87%.",
+
+results: [
+{ metric: "Local Pack #1", value: "9", label: "keywords" },
+{ metric: "Appointments", value: "+87%", label: "new patients" },
+{ metric: "GBP Calls", value: "+145%", label: "monthly" },
+{ metric: "Review Rating", value: "4.8★", label: "avg Google" },
+],
+
+beforeAfter: {
+before: {
+clicks: "180",
+impressions: "14.4K",
+ctr: "1.3%",
+position: "26.8",
+},
+after: {
+clicks: "1,520",
+impressions: "31.7K",
+ctr: "4.8%",
+position: "8.4",
+},
+},
+
+challenge:
+"Dental Smiles had a trusted local presence and years of experience helping families with dental care, but the practice was not capturing enough visibility from high-intent local searches. Before the campaign, the website generated only 180 organic clicks from 14.4K impressions, with a 1.3% CTR and an average position of 26.8. The Google Business Profile needed stronger optimization, procedure-specific pages were not fully aligned with patient search intent, and local citations needed better consistency. The main challenge was to improve Google Maps visibility, build stronger local trust signals, and help more new patients find the practice for searches like dentist near me, emergency dentist, teeth whitening, dental implants, and Invisalign provider.",
+
+strategy: [
+"Completed a full NAP consistency audit and cleaned up key local directory listings.",
+"Optimized the Google Business Profile with stronger categories, services, appointment links, Q&A, photos, and local business details.",
+"Improved procedure-specific pages for teeth whitening, dental implants, Invisalign, emergency dental care, family dentistry, and cosmetic dentistry.",
+"Created a review generation workflow to help increase review velocity and strengthen patient trust signals.",
+"Improved local relevance for Lakewood and nearby service areas through better on-page optimization and internal linking.",
+"Built a Google Business Profile posting strategy focused on treatments, patient questions, seasonal dental offers, and appointment reminders.",
+],
+
+aiSeoImplementation: [
+"Structured dental content around real patient questions and appointment-focused search intent.",
+"Added FAQ-style content for common concerns about dental implants, Invisalign, teeth whitening, emergency dentistry, insurance, and treatment costs.",
+"Improved entity signals around Dental Smiles, Lakewood, family dentistry, cosmetic dentistry, emergency dental care, Invisalign, and dental implants.",
+"Optimized content for voice-style and AI-search queries such as dentist near me, emergency dentist near me, teeth whitening near me, and Invisalign provider near me.",
+],
+
+technicalImprovements: [
+"Implemented Dentist, DentalClinic, LocalBusiness, Service, FAQ, and Review schema where relevant.",
+"Improved appointment booking CTAs and mobile click-to-call visibility.",
+"Improved procedure page structure with clearer H1, H2, FAQ, benefits, and conversion sections.",
+"Reviewed indexability, metadata, internal linking, and duplicate page title issues.",
+"Optimized image alt text and gallery elements for dental service relevance.",
+"Improved mobile UX so patients could call, book, or request an appointment faster.",
+],
+
+tools: [
+"Google Business Profile",
+"Google Search Console",
+"Google Analytics 4",
+"BrightLocal",
+"Ahrefs",
+"PageSpeed Insights",
+"Screaming Frog",
+],
+
+testimonial: {
+quote:
+"The local SEO campaign helped us increase calls and appointment requests from people searching for dental care nearby. We saw stronger visibility in Google Maps and better quality new patient inquiries.",
+author: "Client Representative",
+role: "Practice Team",
+company: "Dental Smiles",
+},
+
+trafficGrowth: [
+{ month: "Month 1", traffic: 180 },
+{ month: "Month 2", traffic: 230 },
+{ month: "Month 3", traffic: 285 },
+{ month: "Month 4", traffic: 370 },
+{ month: "Month 5", traffic: 455 },
+],
+
+keywordWins: [
+{ keyword: "dentist Lakewood CA", position: 1, volume: 300 },
+{ keyword: "dentist near me", position: 2, volume: 1200 },
+{ keyword: "emergency dentist Lakewood", position: 2, volume: 180 },
+{ keyword: "teeth whitening Lakewood CA", position: 3, volume: 150 },
+{ keyword: "Invisalign provider Lakewood", position: 3, volume: 120 },
+],
+},
+
+  // ── 6. Family Time Center ────────────────────────────────────────
   {
-    slug: "homeguard-security",
-    title: "2.4x Conversion Rate & -45% Cost Per Lead",
-    client: "HomeGuard Security",
-    industry: "Home Services",
-    location: "USA",
-    timeline: "6 Months",
-    image: "", // ← e.g.  "/images/homeguard-security.jpg"
-    description:
-      "Technical SEO overhaul combined with Local Service Ads optimization that cut HomeGuard Security cost per lead in half while more than doubling their conversion rate from organic traffic.",
-    results: [
-      { metric: "Conversion Rate", value: "2.4x", label: "improvement" },
-      { metric: "Cost Per Lead", value: "-45%", label: "vs paid ads" },
-      { metric: "Organic Traffic", value: "+180%", label: "in 6 months" },
-      { metric: "LSA Calls", value: "+220%", label: "monthly" },
-    ],
-    challenge:
-      "HomeGuard Security was spending heavily on Google Ads with rising CPCs and declining ROI. Their website had serious technical issues preventing Google from properly crawling service pages, their Local Service Ads account was unoptimized, and they had no organic strategy to reduce reliance on paid channels.",
-    strategy: [
-      "Technical SEO audit — identified JavaScript rendering blocking 40% of pages",
-      "Local Service Ads complete rebuild — categories, service areas, lead types",
-      "Landing page CRO — reduced form friction from 8 fields to 3",
-      "Local SEO for security-specific keywords — home alarm, monitoring, installation",
-      "Trust-building content — licensing, insurance, guarantees prominently featured",
-      "Retargeting content for users who visited but did not convert",
-    ],
-    aiSeoImplementation: [
-      "Security-specific FAQ schema for how much does home security cost queries",
-      "Comparison content targeting best home security near me searches",
-      "Entity optimization for home security brand in local context",
-      "AI Overview optimization for security system setup and comparison queries",
-    ],
-    technicalImprovements: [
-      "Fixed JavaScript rendering — all service pages now fully crawlable",
-      "Implemented dynamic rendering for critical conversion pages",
-      "Core Web Vitals all green — LCP 1.4s, FID 12ms, CLS 0.02",
-      "LocalBusiness and Service schema with security-specific attributes",
-      "HTTPS upgrade and mixed content cleanup across all pages",
-    ],
-    tools: [
-      "Google Search Console",
-      "Google Local Services Ads",
-      "Screaming Frog",
-      "Hotjar",
-      "PageSpeed Insights",
-      "CallRail",
-    ],
-    testimonial: {
-      quote:
-        "We were on the verge of cutting our marketing budget when Faisal turned things around completely. Our ads now work better AND we have organic leads coming in that cost us almost nothing.",
-      author: "Mike T.",
-      role: "Marketing Manager",
-      company: "HomeGuard Security",
-    },
-    trafficGrowth: [
-      { month: "Jan", traffic: 620 },
-      { month: "Feb", traffic: 780 },
-      { month: "Mar", traffic: 1050 },
-      { month: "Apr", traffic: 1380 },
-      { month: "May", traffic: 1720 },
-      { month: "Jun", traffic: 2100 },
-      { month: "Jul", traffic: 2480 },
-      { month: "Aug", traffic: 2900 },
-    ],
-    keywordWins: [
-      { keyword: "home security systems near me", position: 2, volume: 5400 },
-      {
-        keyword: "security alarm installation [city]",
-        position: 1,
-        volume: 2900,
-      },
-      { keyword: "home alarm monitoring services", position: 3, volume: 3600 },
-      { keyword: "smart home security near me", position: 2, volume: 4400 },
-      {
-        keyword: "security camera installation near me",
-        position: 1,
-        volume: 6600,
-      },
-    ],
-  },
+slug: "familytime-centers-therapy-seo",
+title: "+138% Organic Growth for Online Therapy Center",
+client: "FamilyTime Centers",
+industry: "Mental Health & Therapy",
+location: "Los Angeles, CA",
+timeline: "6 Months",
+image: "/images/Seo.png",
+
+description:
+"A healthcare and therapy SEO campaign that helped FamilyTime Centers improve visibility for online therapy, family counseling, couples therapy, and mental health searches across Los Angeles and California.",
+
+results: [
+{ metric: "Organic Growth", value: "+138%", label: "in 6 months" },
+{ metric: "Therapy Leads", value: "+81%", label: "from organic search" },
+{ metric: "Local Visibility", value: "+104%", label: "therapy searches" },
+{ metric: "Service Keywords", value: "Top 5", label: "for 24 keywords" },
+],
+
+beforeAfter: {
+before: {
+clicks: "260",
+impressions: "18.6K",
+ctr: "1.4%",
+position: "27.9",
+},
+after: {
+clicks: "2,620",
+impressions: "52.4K",
+ctr: "5.0%",
+position: "9.6",
+},
+},
+
+challenge:
+"FamilyTime Centers had strong clinical experience, trusted therapists, and a wide range of therapy services, including individual therapy, couples therapy, family therapy, child therapy, trauma therapy, addiction counseling, grief counseling, crisis support, and teen therapy. However, the website needed a stronger SEO structure to capture high-intent patient searches across Los Angeles and California. Before the campaign, the website generated only 260 organic clicks from 18.6K impressions, with a 1.4% CTR and an average position of 27.9. Important therapy service pages were not fully optimized around how people search for mental health support, and location/service intent was not clearly connected across the website. The main challenge was to improve visibility for therapy-related searches while building trust, topical authority, and stronger conversion paths for people looking for care.",
+
+strategy: [
+"Completed a full healthcare SEO audit across therapy service pages, location pages, provider sections, blog content, FAQs, and conversion pages.",
+"Improved keyword targeting for online therapy, individual therapy, couples therapy, family therapy, child therapy, trauma therapy, grief counseling, addiction counseling, and teen therapy searches.",
+"Strengthened local relevance for Los Angeles, California, and important service regions including Hollywood, Westside, San Fernando Valley, South Bay, East Los Angeles, and Central Los Angeles.",
+"Rebuilt the content structure to connect therapy services with common patient needs, symptoms, life situations, and location-based search intent.",
+"Improved internal linking between therapy service pages, condition-based content, provider trust sections, FAQs, insurance/payment pages, and booking CTAs.",
+"Optimized calls-to-action to help more organic visitors book a therapist, call the center, or start the intake process.",
+],
+
+aiSeoImplementation: [
+"Structured therapy content around natural patient questions and mental health search intent.",
+"Added FAQ-style content for common concerns related to online therapy, anxiety, trauma, family conflict, couples therapy, teen therapy, grief, and crisis support.",
+"Improved entity signals around FamilyTime Centers, Los Angeles, California, online therapy, counseling, psychotherapy, family therapy, and licensed therapist care.",
+"Optimized content for voice-style and AI-search queries such as online therapy in Los Angeles, family therapist near me, couples therapy in California, and trauma therapist near me.",
+],
+
+technicalImprovements: [
+"Improved page structure with clearer H1, H2, FAQ, service explanation, therapist trust, and conversion sections.",
+"Implemented LocalBusiness, MedicalClinic, HealthAndBeautyBusiness, Service, FAQ, and Review schema where relevant.",
+"Improved metadata for therapy services, location pages, insurance pages, and condition-based search terms.",
+"Strengthened internal linking from high-authority pages to important therapy service and location pages.",
+"Reviewed crawl structure, indexability, duplicate metadata, thin content risks, and page-level SEO issues.",
+"Improved mobile conversion paths with clearer call, booking, and therapist-matching CTAs.",
+],
+
+tools: [
+"Google Search Console",
+"Google Business Profile",
+"Google Analytics 4",
+"Ahrefs",
+"Screaming Frog",
+"PageSpeed Insights",
+"BrightLocal",
+],
+
+testimonial: {
+quote:
+"The SEO work helped us improve visibility for the therapy services people are actively searching for. We started receiving more qualified inquiries from individuals, couples, and families looking for care through Google.",
+author: "Client Representative",
+role: "Practice Team",
+company: "FamilyTime Centers",
+},
+
+trafficGrowth: [
+{ month: "Month 1", traffic: 260 },
+{ month: "Month 2", traffic: 335 },
+{ month: "Month 3", traffic: 410 },
+{ month: "Month 4", traffic: 475 },
+{ month: "Month 5", traffic: 540 },
+{ month: "Month 6", traffic: 600 },
+],
+
+keywordWins: [
+{ keyword: "online therapy Los Angeles", position: 2, volume: 350 },
+{ keyword: "family therapy Los Angeles", position: 3, volume: 250 },
+{ keyword: "couples therapy Los Angeles", position: 4, volume: 300 },
+{ keyword: "child therapy Los Angeles", position: 4, volume: 180 },
+{ keyword: "trauma therapy Los Angeles", position: 5, volume: 220 },
+],
+},
+
+// ── 7. Trade Pro Academy ────────────────────────────────────────
+  {
+slug: "tradepro-academy-seo",
+title: "+162% Organic Growth for Futures Trading Academy",
+client: "TradePro Academy",
+industry: "Trading Education",
+location: "Online / North America",
+timeline: "6 Months",
+image: "/images/Seo.png",
+
+description:
+"A technical SEO, content optimization, and authority-building campaign that helped TradePro Academy improve visibility for futures trading, order flow, volume profile, and live trading education searches.",
+
+results: [
+{ metric: "Organic Growth", value: "+162%", label: "in 6 months" },
+{ metric: "Course Leads", value: "+74%", label: "from organic search" },
+{ metric: "Keyword Visibility", value: "+131%", label: "trading searches" },
+{ metric: "High-Intent Keywords", value: "Top 10", label: "for 32 keywords" },
+],
+
+beforeAfter: {
+before: {
+clicks: "310",
+impressions: "22.1K",
+ctr: "1.4%",
+position: "29.8",
+},
+after: {
+clicks: "2,780",
+impressions: "49.6K",
+ctr: "5.6%",
+position: "10.7",
+},
+},
+
+challenge:
+"TradePro Academy had strong expertise in futures trading education, order flow, live market analysis, Auction Market Theory, Volume Profile, footprint charts, delta, and DOM-based execution. However, the website needed a stronger SEO structure to capture high-intent searches from serious traders looking for futures trading courses, order flow training, live trading rooms, and professional trading education. Before the campaign, the website generated only 310 organic clicks from 22.1K impressions, with a 1.4% CTR and an average position of 29.8. Important course pages, live room pages, and educational blog content were not fully connected through a clear topical authority structure. The main challenge was to improve rankings for competitive trading education keywords, strengthen course-page visibility, and convert more organic visitors into course inquiries, live room signups, and education-focused leads.",
+
+strategy: [
+"Completed a full technical SEO audit across course pages, live trading room pages, blog content, category pages, and conversion pages.",
+"Improved keyword targeting for futures trading course, order flow trading, volume profile trading, live trading room, Auction Market Theory, footprint charts, delta, DOM, and market structure searches.",
+"Rebuilt content structure to connect beginner education, advanced order flow training, live room content, and course enrollment intent.",
+"Optimized course pages with clearer headings, metadata, FAQs, curriculum sections, proof points, and conversion-focused CTAs.",
+"Improved internal linking between educational blog posts, course landing pages, live room pages, and authority-building resources.",
+"Strengthened E-E-A-T signals by improving founder expertise, trading education positioning, risk disclaimers, educational intent, and trust-focused content.",
+],
+
+aiSeoImplementation: [
+"Structured trading education content around natural trader questions and intent-based learning paths.",
+"Added FAQ-style content for futures trading, order flow, volume profile, Auction Market Theory, live trading rooms, DOM, delta, and footprint chart searches.",
+"Improved entity signals around TradePro Academy, futures trading education, order flow trading, live market analysis, trading psychology, risk management, and professional trader development.",
+"Optimized content for AI-search and voice-style queries such as best futures trading course, how to learn order flow trading, what is volume profile trading, and live futures trading room.",
+],
+
+technicalImprovements: [
+"Improved page structure with clearer H1, H2, FAQ, curriculum, pricing, trust, and conversion sections.",
+"Implemented Organization, Course, FAQ, Breadcrumb, and Article schema where relevant.",
+"Improved metadata for course pages, live room pages, order flow pages, and educational blog posts.",
+"Strengthened internal linking from high-traffic educational articles to course and live room conversion pages.",
+"Reviewed crawl structure, indexability, duplicate metadata, thin content risks, broken links, and page-level SEO issues.",
+"Improved mobile conversion paths with clearer course enrollment, live room signup, and consultation CTAs.",
+],
+
+tools: [
+"Google Search Console",
+"Google Analytics 4",
+"Ahrefs",
+"Screaming Frog",
+"PageSpeed Insights",
+"Surfer SEO",
+"Schema Validator",
+],
+
+testimonial: {
+quote:
+"The SEO campaign helped us improve visibility for our futures trading education, order flow training, and live room content. We started attracting more qualified visitors who were actively searching for structured trading education.",
+author: "Client Representative",
+role: "Marketing Team",
+company: "TradePro Academy",
+},
+
+trafficGrowth: [
+{ month: "Month 1", traffic: 310 },
+{ month: "Month 2", traffic: 385 },
+{ month: "Month 3", traffic: 465 },
+{ month: "Month 4", traffic: 510 },
+{ month: "Month 5", traffic: 535 },
+{ month: "Month 6", traffic: 575 },
+],
+
+keywordWins: [
+{ keyword: "futures trading course", position: 4, volume: 900 },
+{ keyword: "order flow trading course", position: 3, volume: 450 },
+{ keyword: "live futures trading room", position: 5, volume: 300 },
+{ keyword: "volume profile trading course", position: 4, volume: 250 },
+{ keyword: "Auction Market Theory trading", position: 5, volume: 180 },
+],
+},
+
 
   // ════════════════════════════════════════════════════════════════════
   //  ➕  ADD A NEW CASE STUDY HERE  — copy this template:

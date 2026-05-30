@@ -13,6 +13,7 @@ const cases = [
   {
     slug: "fresh-start-facility-services",
     industry: "Cleaning",
+    images: "/images/Go-toSEOSuperior.png",
     tags: ["Cleaning", "Local SEO"],
     title: "Fresh Start Facility Services",
     desc: "8.4K clicks, 3.01M impressions and average position improved from 29.6 to 16.5 in 6 months.",
