@@ -1,18 +1,13 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { getCaseImage } from "@/content/case-studies/data";
 import Image from "next/image";
 
-interface Props { onNavigate?: (page: string) => void; preview?: boolean; }
-
-const industryImg: Record<string, string> = {
-  "Cleaning":      "/images/case-cleaning.svg",
-  "HVAC":          "/images/case-hvac.svg",
-  "Healthcare":    "/images/case-healthcare.svg",
-  "Roofing":       "/images/case-roofing.svg",
-  "Dental":        "/images/case-dental.svg",
-  "Home Services": "/images/case-security.svg",
-};
+interface Props {
+  onNavigate?: (page: string) => void;
+  preview?: boolean;
+}
 
 const cases = [
   {
@@ -76,12 +71,16 @@ export function CaseStudiesPreview({ onNavigate, preview }: Props) {
 
   useEffect(() => {
     const obs = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
-      }),
-      { threshold: 0.08 }
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            obs.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.08 },
     );
-    ref.current?.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+    ref.current?.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
     return () => obs.disconnect();
   }, []);
 
@@ -98,7 +97,8 @@ export function CaseStudiesPreview({ onNavigate, preview }: Props) {
         </h2>
         <div className="divider-line" />
         <p className="sec-desc">
-          Result-focused SEO campaigns across local businesses, healthcare, cleaning, HVAC and service brands.
+          Result-focused SEO campaigns across local businesses, healthcare,
+          cleaning, HVAC and service brands.
         </p>
       </div>
 
@@ -112,15 +112,35 @@ export function CaseStudiesPreview({ onNavigate, preview }: Props) {
           >
             <div
               className={`card reveal cs-preview-card${c.featured ? " case-featured" : ""}`}
-              style={{ display: "flex", flexDirection: "column", minHeight: 420, cursor: "pointer" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: 420,
+                cursor: "pointer",
+                padding: 0,
+              }}
             >
               {/* Image */}
-              <div style={{ height: 180, margin: "14px 14px 0", borderRadius: 14, border: "1px solid var(--line)", overflow: "hidden", position: "relative", background: "var(--dark2)", flexShrink: 0 }}>
+              <div
+                style={{
+                  height: 180,
+                  margin: "14px 14px 0",
+                  borderRadius: 14,
+                  border: "1px solid var(--line)",
+                  overflow: "hidden",
+                  position: "relative",
+                  background: "var(--dark2)",
+                  flexShrink: 0,
+                }}
+              >
                 <Image
-                  src={industryImg[c.industry] ?? "/images/case-default.svg"}
+                  src={getCaseImage(c as any)}
                   alt={c.title}
                   fill
-                  style={{ objectFit: "cover", transition: "transform .4s ease" }}
+                  style={{
+                    objectFit: "cover",
+                    transition: "transform .4s ease",
+                  }}
                   className="cs-preview-img"
                   sizes="(max-width:767px) 100vw, (max-width:1024px) 50vw, 33vw"
                   priority={idx < 3}
@@ -128,26 +148,63 @@ export function CaseStudiesPreview({ onNavigate, preview }: Props) {
               </div>
 
               {/* Body */}
-              <div style={{ padding: "14px 22px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
+              <div
+                style={{
+                  padding: "14px 22px 24px",
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
                 {/* Tags */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
-                  {c.tags.map(t => (
-                    <span key={t} className="case-tag">{t}</span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 6,
+                    marginBottom: 10,
+                  }}
+                >
+                  {c.tags.map((t) => (
+                    <span key={t} className="case-tag">
+                      {t}
+                    </span>
                   ))}
                 </div>
 
                 <h3 style={{ fontSize: 18, marginBottom: 8 }}>{c.title}</h3>
-                <p style={{ fontSize: 14, lineHeight: 1.7, flex: 1 }}>{c.desc}</p>
+                <p style={{ fontSize: 14, lineHeight: 1.7, flex: 1 }}>
+                  {c.desc}
+                </p>
 
                 {/* Results */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginTop: 12 }}>
-                  {c.results.map(r => (
-                    <span key={r} className="case-result">{r}</span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 7,
+                    marginTop: 12,
+                  }}
+                >
+                  {c.results.map((r) => (
+                    <span key={r} className="case-result">
+                      {r}
+                    </span>
                   ))}
                 </div>
 
                 {/* CTA */}
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 16, color: "var(--gold)", fontWeight: 700, fontSize: 13.5 }}>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    marginTop: 16,
+                    color: "var(--gold)",
+                    fontWeight: 700,
+                    fontSize: 13.5,
+                  }}
+                >
                   View Full Case Study →
                 </div>
               </div>

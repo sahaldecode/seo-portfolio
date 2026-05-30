@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/animations/ScrollReveal";
 import { Services } from "@/components/sections/Services";
-// import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
+import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { Cpu, Brain, Globe, MapPin, FileCode, BarChart3, ArrowUpRight, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Services | SEO Expert Pakistan",
     description: "Comprehensive SEO services for the AI search era.",
-    url: "https://seoexpert.pk/services/",
+    url: "https://faisalseo.com/services/",
   },
 };
 
@@ -113,7 +113,7 @@ export default function ServicesPage() {
       </div>
 
       <Services />
-      {/* <ProcessTimeline /> */}
+      <ProcessTimeline />
     </div>
   );
 }

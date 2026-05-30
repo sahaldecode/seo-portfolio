@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { caseStudies } from "@/content/case-studies/data";
+import { caseStudies, getCaseImage } from "@/content/case-studies/data";
 
 export const metadata: Metadata = {
   title: "Case Studies | Local SEO Results – Faisal Rehman",
@@ -14,16 +14,6 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: "https://faisalseo.com/case-studies/" },
 };
-
-const industryImg: Record<string, string> = {
-  Cleaning: "/images/case-cleaning.svg",
-  HVAC: "/images/case-hvac.svg",
-  Healthcare: "/images/case-healthcare.svg",
-  Roofing: "/images/case-roofing.svg",
-  Dental: "/images/case-dental.svg",
-  "Home Services": "/images/case-security.svg",
-};
-const fallback = "/images/case-default.svg";
 
 export default function CaseStudiesPage() {
   return (
@@ -154,7 +144,7 @@ export default function CaseStudiesPage() {
                   }}
                 >
                   <Image
-                    src={industryImg[study.industry] ?? fallback}
+                    src={getCaseImage(study)}
                     alt={study.title}
                     fill
                     sizes="(max-width:767px) 100vw, (max-width:1024px) 50vw, 33vw"
@@ -354,7 +344,6 @@ export default function CaseStudiesPage() {
           ))}
         </div>
 
-
         {/* Bottom CTA */}
         <div
           className="cta-band"
@@ -390,9 +379,7 @@ export default function CaseStudiesPage() {
               flexWrap: "wrap",
             }}
           >
-          {/* <button onClick={() => onNavigate("contact")} className="btn-gold">Book Free Audit →</button> */}
-
-            <Link 
+            <Link
               href="/contact/"
               className="btn-gold"
               style={{
@@ -417,7 +404,7 @@ export default function CaseStudiesPage() {
             </Link>
           </div>
         </div>
-      </div> 
+      </div>
 
       <style>{`
         .cases-list-grid { }

@@ -2,33 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { caseStudies } from "@/content/case-studies/data";
+import { caseStudies, getCaseImage } from "@/content/case-studies/data";
 
-/* ──────────────────────────────────────────────────────────────
-   IMAGE RESOLUTION
-   Priority order:
-   1. /public/images/case-{slug}.jpg   ← your real screenshot
-   2. /public/images/case-{slug}.png
-   3. /public/images/case-{industry}.svg (auto placeholder)
-   4. /public/images/seo-hero.jpg      (final fallback)
-─────────────────────────────────────────────────────────────── */
-const INDUSTRY_SVG: Record<string, string> = {
-  Cleaning: "/images/case-cleaning.svg",
-  HVAC: "/images/case-hvac.svg",
-  Healthcare: "/images/case-healthcare.svg",
-  Roofing: "/images/case-roofing.svg",
-  Dental: "/images/case-dental.svg",
-  "Home Services": "/images/case-security.svg",
-};
-
-function getCaseImg(slug: string, industry: string): string {
-  // We always return a path — Next.js will use whatever exists
-  // Prefer real screenshots, fall back to SVG placeholder
-  return `/images/case-${slug}.jpg`;
-}
-function getFallbackImg(industry: string): string {
-  return INDUSTRY_SVG[industry] ?? "/images/seo-hero.jpg";
-}
+// Image resolved via getCaseImage() from data.ts
 
 /* ── Metadata ─────────────────────────────────────────────── */
 export async function generateMetadata({
@@ -54,7 +30,7 @@ export function generateStaticParams() {
   return caseStudies.map((s) => ({ slug: s.slug }));
 }
 
-/* ── Helpers  */
+/* ── Helpers ──────────────────────────────────────────────── */
 const Check = () => (
   <svg
     width="14"
@@ -117,7 +93,7 @@ function barPcts(data: { traffic: number }[]) {
   return data.map((d) => Math.round((d.traffic / max) * 100));
 }
 
-/* ── Page */
+/* ── Page ─────────────────────────────────────────────────── */
 export default async function CaseStudyPage({
   params,
 }: {
@@ -134,8 +110,7 @@ export default async function CaseStudyPage({
     .map((w) => w[0])
     .join("")
     .toUpperCase();
-  const heroImg = getCaseImg(slug, s.industry);
-  const fallback = getFallbackImg(s.industry);
+  const heroImg = getCaseImage(s);
 
   /* ── RENDER ── */
   return (
@@ -331,7 +306,7 @@ export default async function CaseStudyPage({
               flexWrap: "wrap",
               borderTop: "1px solid var(--line)",
               paddingTop: 22,
-              paddingBottom: 22,  
+              paddingBottom: 22,
               width: "100%",
             }}
           >
@@ -367,7 +342,7 @@ export default async function CaseStudyPage({
               ["Industry", s.industry],
               ["Location", s.location],
               ["Timeline", s.timeline ?? "Ongoing"],
-              ["Status",  "Completed"],
+              ["Status", "Completed"],
             ].map(([k, v]) => (
               <div
                 key={k}
@@ -583,7 +558,6 @@ export default async function CaseStudyPage({
                 priority
                 sizes="(max-width:767px) 100vw,(max-width:1024px) 70vw,65vw"
                 style={{ objectFit: "cover" }}
-                onError={undefined}
               />
               {/* overlay gradient */}
               <div

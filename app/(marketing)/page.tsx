@@ -10,7 +10,7 @@ import { SkillsGrid }         from "@/components/sections/SkillsGrid";
 import { CaseStudiesPreview } from "@/components/sections/CaseStudiesPreview";
 import { Pricing }            from "@/components/sections/Pricing";
 import { BookingCalendar }    from "@/components/sections/BookingCalendar";
-// import { ProcessTimeline }    from "@/components/sections/ProcessTimeline";
+import { ProcessTimeline }    from "@/components/sections/ProcessTimeline";
 import { Testimonials }       from "@/components/sections/Testimonials";
 import { FAQ }                from "@/components/sections/FAQ";
 import { Stats }              from "@/components/sections/Stats";
@@ -43,9 +43,10 @@ function Inner() {
             <About />
             <Services onNavigate={navigate} preview />
             <SkillsGrid />
-            {/* <CaseStudiesPreview preview /> */}
+            <CaseStudiesPreview preview />
             <Pricing onNavigate={navigate} preview />
             <BookingCalendar />
+            <ProcessTimeline />
             <Testimonials />
             <FAQ onNavigate={navigate} preview />
             <Stats onNavigate={navigate} />

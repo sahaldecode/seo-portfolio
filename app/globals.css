@@ -460,3 +460,74 @@
 @media (max-width: 390px) {
   .locs-grid { grid-template-columns: 1fr !important; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   MOBILE SPEED & PERFORMANCE OPTIMIZATIONS
+════════════════════════════════════════════════════════════ */
+
+/* Reduce paint cost on mobile — disable hover transforms on touch */
+@media (hover: none) {
+  .card:hover          { transform: none !important; }
+  .btn-gold:hover      { transform: none !important; }
+  .btn-outline:hover   { transform: none !important; }
+  .xp-item:hover       { transform: none !important; }
+}
+
+/* Reduce animation on low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+  }
+}
+
+/* ── Case study mobile responsive ── */
+@media (max-width: 1024px) {
+  .cs-body-grid  { grid-template-columns: 1fr !important; }
+  .cs-sidebar    { display: none !important; }
+}
+
+@media (max-width: 767px) {
+  /* Before/After grid */
+  .ba-grid { grid-template-columns: 1fr !important; }
+  .ba-grid > div:first-child { border-radius: 16px 16px 0 0 !important; }
+  .ba-grid > div:last-child  {
+    border-radius: 0 0 16px 16px !important;
+    border-top: none !important;
+    border-left: 1px solid rgba(52,199,89,.16) !important;
+  }
+
+  /* Case studies list grid */
+  .cases-list-grid { grid-template-columns: 1fr !important; }
+
+  /* Hero result pills — 2 col on small screens */
+  .cs-hero-pills { grid-template-columns: 1fr 1fr !important; }
+
+  /* Client strip stack */
+  .cs-client-strip {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .cs-strip-sep { display: none !important; }
+
+  /* Keyword table — hide volume on very small */
+  .kw-volume-col { display: none !important; }
+}
+
+@media (max-width: 480px) {
+  /* Result pills single column on tiny screens */
+  .cs-hero-pills { grid-template-columns: 1fr 1fr !important; }
+
+  /* Compact section headings */
+  .cs-section-title { font-size: 18px !important; }
+
+  /* Compact testimonial */
+  .cs-testimonial { padding: 20px 16px !important; }
+
+  /* Bottom CTA */
+  .cs-bottom-cta { padding: 28px 18px !important; border-radius: 16px !important; }
+  .cs-cta-btns   { flex-direction: column !important; }
+  .cs-cta-btns a { width: 100% !important; justify-content: center !important; text-align: center !important; }
+}
