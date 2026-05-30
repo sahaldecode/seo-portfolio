@@ -13,8 +13,6 @@ const nextConfig = {
   typescript: { ignoreBuildErrors: true },
   // Enable static optimization
   output: "standalone",
-  experimental: {
-    optimizeCss: true,
-  },
+ 
 };
 module.exports = nextConfig;
