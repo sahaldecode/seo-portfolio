@@ -200,10 +200,10 @@ export function Hero({ onNavigate }: HeroProps) {
                 Faisal Rehman
               </strong>{" "}
               — a Local SEO &amp; AI SEO Expert specializing in Technical SEO,
-              Google Business Profile (GMB) Optimization, Local Website
-              Development, and Local Services Ads. With 5+ years of hands-on
-              experience, I help HVAC companies, healthcare clinics, and local
-              service businesses improve Google rankings, generate more
+              Google Business Profile (GMB) Optimization, <strong style={{ color: "var(--text)", fontWeight: 600 }}>Local Website
+              Development, and Local Services Ads.</strong> With 5+ years of hands-on
+              experience, I help HVAC companies, healthcare clinics, and <strong style={{ color: "var(--text)", fontWeight: 600 }}>local
+              service businesses improve Google rankings,</strong> generate more
               qualified calls and leads, and build a stronger presence across
               Google Search, Google Maps, and AI-driven search platforms.
             </p>
