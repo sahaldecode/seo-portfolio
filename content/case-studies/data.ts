@@ -133,32 +133,32 @@ export const caseStudies: CaseStudy[] = [
     // 🖼️  ADD YOUR IMAGE HERE
     // Step 1: Put your file in  public/images/  e.g.  fresh-start.jpg
     // Step 2: Set the path below, e.g:  image: "/images/fresh-start.jpg"
-    image: "/images/fresh-start.jpg", // ← paste your image path here
+    image: "/images/Fresh Start Facility SEO.png", // ← paste your image path here
 
     description:
-      "How a complete Local SEO overhaul transformed Fresh Start Facility Services from invisible to dominant — generating 8.4K clicks, 3.01M impressions and a 45% improvement in average position.",
+      "How a complete Local SEO overhaul helped Fresh Start Facility Services improve organic visibility, attract more qualified visitors, and move important cleaning service keywords closer to Page 1.",
     results: [
-      { metric: "Total Clicks", value: "8.4K", label: "in 6 months" },
-      { metric: "Impressions", value: "3.01M", label: "organic search" },
-      { metric: "Avg Position", value: "16.5", label: "was 29.6" },
-      { metric: "Traffic Growth", value: "+124%", label: "organic traffic" },
+      { metric: "Total Clicks", value: "2.1K", label: "in 6 months" },
+      { metric: "Impressions", value: "82k", label: "organic search" },
+      { metric: "Avg Position", value: "14.8", label: "was 29.6" },
+      { metric: "Traffic Growth", value: "+425%", label: "organic traffic" },
     ],
     beforeAfter: {
       before: {
-        clicks: "1,850",
-        impressions: "620K",
+        clicks: "400",
+        impressions: "33.3k",
         ctr: "1.2%",
-        position: "29.6",
+        position: "35.2",
       },
       after: {
-        clicks: "8,400",
-        impressions: "3.01M",
-        ctr: "2.8%",
-        position: "16.5",
+        clicks: "2,100",
+        impressions: "82k",
+        ctr: "2.6%",
+        position: "14.8",
       },
     },
     challenge:
-      "Fresh Start Facility Services had been operating for 4 years providing commercial cleaning to offices, warehouses and medical facilities — but their online presence was almost non-existent. Despite strong reviews from existing clients, they were invisible on Google. Average ranking position of 29.6 meant virtually zero organic traffic, their Google Business Profile was incomplete, and they had no individual service or location pages to capture specific search intent.",
+      "Fresh Start Facility Services had been operating for 2 years, providing commercial cleaning services for offices, warehouses, and medical facilities. The company had strong client relationships and positive feedback from existing customers, but its online presence was still very limited. Before the SEO campaign, the website had weak visibility in Google search, with an average position of 35.2. Most important keywords were ranking around Page 3 or Page 4, which made it difficult for new customers to find the business through organic search.The Google Business Profile was incomplete, the website lacked properly optimized service pages, and there were no strong location-based landing pages to capture high-intent local searches. Because of this, Fresh Start Facility Services was missing opportunities from people actively searching for commercial cleaning and facility cleaning services in their service area.",
     strategy: [
       "Full local SEO audit identifying 40+ technical and on-page issues",
       "Google Business Profile optimization — categories, services, photos, posts",
@@ -199,14 +199,14 @@ export const caseStudies: CaseStudy[] = [
       company: "Fresh Start Facility Services",
     },
     trafficGrowth: [
-      { month: "Jan", traffic: 480 },
+      { month: "Jan", traffic: 400 },
       { month: "Feb", traffic: 620 },
       { month: "Mar", traffic: 890 },
-      { month: "Apr", traffic: 1250 },
-      { month: "May", traffic: 1680 },
-      { month: "Jun", traffic: 2100 },
-      { month: "Jul", traffic: 2640 },
-      { month: "Aug", traffic: 3200 },
+      { month: "Apr", traffic: 1100 },
+      { month: "May", traffic: 1450 },
+      { month: "Jun", traffic: 1620 },
+      { month: "Jul", traffic: 1840 },
+      { month: "Aug", traffic: 2100 },
     ],
     keywordWins: [
       {
@@ -231,6 +231,105 @@ export const caseStudies: CaseStudy[] = [
 
   // ── 2. Go To Superior HVAC ───────────────────────────────────────
   {
+    slug: "go-to-superior-hvac",
+    title: "From Weak Local Visibility to #1 for “HVAC Bluffton”",
+    client: "Go To Superior HVAC",
+    industry: "HVAC",
+    location: "Bluffton, USA",
+    timeline: "8 Months",
+    image: "/images/Go-to-Superior.png", // ← e.g. "/images/go-to-superior-hvac.jpg"
+
+    description:
+      "A focused Local SEO and Google Business Profile campaign that helped Go To Superior HVAC rank #1 for “HVAC Bluffton,” improve Google Maps visibility, and increase inbound calls by 87% during both peak and off-peak seasons.",
+
+    results: [
+      { metric: "Inbound Calls", value: "+87%", label: "from Google" },
+      { metric: "Maps Visibility", value: "+142%", label: "local impressions" },
+      { metric: "Bookings", value: "+52%", label: "organic bookings" },
+      { metric: "Local Keywords", value: "Top 3", label: "for 18 keywords" },
+    ],
+
+    beforeAfter: {
+      before: {
+        clicks: "320",
+        impressions: "32K",
+        ctr: "1.0%",
+        position: "34.2",
+      },
+      after: {
+        clicks: "1,850",
+        impressions: "46K",
+        ctr: "4.0%",
+        position: "11.8",
+      },
+    },
+
+    challenge:
+      "Go To Superior HVAC was losing potential jobs to larger competitors that had stronger visibility in the Google Maps 3-pack. Even though the company provided reliable HVAC services, its online presence was not strong enough to consistently capture high-intent local searches. Before the campaign, the Google Business Profile had limited optimization, minimal photo activity, weak service area targeting, and missing local relevance signals. The website also lacked strong location-specific pages, which made it harder to rank for searches like “HVAC Bluffton” and other service-based local keywords. During slower seasons, organic call volume dropped significantly because the business was relying too heavily on paid ads and referrals. The main challenge was to build a stronger local SEO foundation that could generate calls, bookings, and visibility from Google Maps and organic search throughout both peak and off-peak seasons.",
+
+    strategy: [
+      "Completed a full Google Business Profile audit and re-optimization, including categories, services, attributes, business description, service areas, and photo updates.",
+      "Created a local keyword strategy focused on high-intent HVAC searches in Bluffton and nearby service areas.",
+      "Improved service page content for AC repair, HVAC repair, heating services, installation, maintenance, and emergency HVAC searches.",
+      "Built location-focused content to strengthen local relevance for Bluffton and surrounding communities.",
+      "Added internal links between HVAC service pages, location content, and conversion-focused pages.",
+      "Improved calls-to-action, click-to-call buttons, and contact forms to convert more organic visitors into phone calls and booking requests.",
+    ],
+
+    aiSeoImplementation: [
+      "Optimized service content around HVAC-specific search intent and natural customer questions.",
+      "Added FAQ-style content for common HVAC problems, repair needs, maintenance questions, and emergency service searches.",
+      "Improved entity signals around Go To Superior HVAC, HVAC services, Bluffton, service areas, and local business relevance.",
+      "Optimized content for voice-style searches such as “HVAC repair near me,” “AC repair in Bluffton,” and “emergency HVAC service near me.”",
+    ],
+
+    technicalImprovements: [
+      "Improved local service page structure with clearer headings, internal links, and conversion sections.",
+      "Implemented LocalBusiness and service-focused schema markup.",
+      "Improved mobile speed and user experience for local visitors.",
+      "Added stronger click-to-call elements for mobile users.",
+      "Created a consistent Google Business Profile posting and photo update plan.",
+    ],
+
+    tools: [
+      "Google Business Profile",
+      "Google Search Console",
+      "Google Analytics 4",
+      "BrightLocal",
+      "Ahrefs",
+      "PageSpeed Insights",
+      "Screaming Frog",
+    ],
+
+    testimonial: {
+      quote:
+        "Our phone started ringing more consistently from Google, especially during the busy season. The SEO work helped us become much more visible in Bluffton and brought in better quality local leads.",
+      author: "Tom R.",
+      role: "Owner",
+      company: "Go To Superior HVAC",
+    },
+
+    trafficGrowth: [
+      { month: "Month 1", traffic: 320 },
+      { month: "Month 2", traffic: 420 },
+      { month: "Month 3", traffic: 600 },
+      { month: "Month 4", traffic: 750 },
+      { month: "Month 5", traffic: 820 },
+      { month: "Month 6", traffic: 1200 },
+      { month: "Month 7", traffic: 1400 },
+      { month: "Month 8", traffic: 1850 },
+    ],
+
+    keywordWins: [
+      { keyword: "HVAC Bluffton", position: 1, volume: 350 },
+      { keyword: "HVAC repair Bluffton", position: 2, volume: 250 },
+      { keyword: "AC repair Bluffton SC", position: 2, volume: 200 },
+      { keyword: "emergency HVAC service Bluffton", position: 3, volume: 120 },
+      { keyword: "air conditioning repair Bluffton", position: 3, volume: 180 },
+    ],
+  },
+
+{
     slug: "go-to-superior-hvac",
     title: "HVAC Company Dominates Local Maps",
     client: "Go To Superior HVAC",
@@ -301,12 +400,12 @@ export const caseStudies: CaseStudy[] = [
     trafficGrowth: [
       { month: "Jan", traffic: 320 },
       { month: "Feb", traffic: 410 },
-      { month: "Mar", traffic: 680 },
-      { month: "Apr", traffic: 1100 },
-      { month: "May", traffic: 1580 },
-      { month: "Jun", traffic: 2200 },
+      { month: "Mar", traffic: 580 },
+      { month: "Apr", traffic: 700 },
+      { month: "May", traffic: 820 },
+      { month: "Jun", traffic: 950 },
       { month: "Jul", traffic: 2850 },
-      { month: "Aug", traffic: 3400 },
+      { month: "Aug", traffic: 1850 },
     ],
     keywordWins: [
       { keyword: "HVAC repair near me", position: 1, volume: 8100 },
